@@ -62,7 +62,6 @@ questions:
       このプログラムをコンパイルして実行するコマンドとして正しいものを1つ選びなさい。
     code: |
       package com.example;
-      
       public class Hello {
         public static void main(String[] args) {
           System.out.println("Hello Java");
@@ -132,7 +131,6 @@ questions:
     code: |
       import java.util.ArrayList;
       import java.util.*;
-  
       public class Main {
         public static void main(String[] args) {
           ArrayList<String> list = new ArrayList<>();
@@ -163,7 +161,6 @@ questions:
           throw new Exception("D");
         }
       }
-
       public class Main {
         public static void main(String[] args) {
           try (MyResource r = new MyResource()) {
@@ -197,10 +194,8 @@ questions:
       次のプログラムを実行した場合、表示結果として正しいものを選びなさい。
     code: |
       public class Main {
-  
         public static int calculate() {
           int num = 10;
-  
           try {
             int value = num / 0;
             num += 10;
@@ -213,7 +208,6 @@ questions:
             System.out.println(num);
           }
         }
-
         public static void main(String[] args) {
           System.out.println(calculate());
         }
@@ -286,21 +280,15 @@ questions:
     code: |
       class Data implements AutoCloseable {
         private String value;
-  
         Data(String value) {
           this.value = value;
           System.out.print(value);
         }
-
-        public void close() {
-          System.out.print(value);
-        }
+        public void close() {System.out.print(value);}
       }
-
       public class Main {
         public static void main(String[] args) {
           Data c = new Data("3");
-  
           try (Data a = new Data("1");
             Data b = new Data("2");
             c) { }
@@ -408,17 +396,12 @@ questions:
       public class Main {
         public static void main(String[] args) {
           int count = 0;
-    
           String s1 = "Java";
           String s2 = new String("Java");
           String s3 = s2.intern();
-    
           if (s1 == s3) {count++;}
-
           if (s2 == s3) {count++;}
-
           if (s2.equals(s3)) {count++;}
-
           System.out.println(count);
         }
       }
@@ -441,10 +424,8 @@ questions:
       public class Main {
         public static void main(String[] args) {
           Object message = "Java Silver";
-    
           if (message instanceof String text) {
             text = text.replace("Silver", "SE17");
-    
             if (message.toString().length() > 5) {
                 message = message.substring(0, 6);
             }
@@ -472,7 +453,6 @@ questions:
     code: |
       import java.util.ArrayList;
       import java.util.List;
-  
       public class Main {
         public static void main(String[] args) {
           List<String> list = new ArrayList<>();
@@ -556,9 +536,7 @@ questions:
       次のプログラムを実行した場合、表示される内容として正しいものを1つ選びなさい。
     code: |
       class Animal { }
-
       class Dog extends Animal { }
-
       class Cat extends Animal { }
 
       public class Main {
@@ -569,9 +547,7 @@ questions:
             new Cat(),
             new Animal()
           };
-  
         int count = 0;
-
         for (Animal animal : animals) {
           if (animal instanceof Dog) {
             count += 1;
@@ -604,19 +580,15 @@ questions:
     code: |
       import java.util.ArrayList;
       import java.util.List;
-  
       public class Main {
         public static void main(String[] args) {
-  
           List<Object> list = new ArrayList<>();
-  
           list.add("Java");
           list.add(17);
           list.add(true);
           list.add(null);
           list.add(new int[] {1, 2});
           list.add(new ArrayList<String>());
-  
           System.out.println(list.size());
           System.out.println(list.get(1));
           System.out.println(list.get(3));
@@ -657,12 +629,9 @@ questions:
       public class Main{
         public static void main(String[] args){
           StringBuilder sb=new StringBuilder("Java");
-    
           System.out.println(sb.length());
           System.out.println(sb.capacity());
-    
           sb.append("Programming");
-    
           System.out.println(sb.length());
           System.out.println(sb.capacity());
         }
@@ -700,7 +669,7 @@ questions:
       次の文字列を表示したい。
         Java "Silver"
         \Exam
-      ソースコードの//ここに挿入する//に入れて正しく表示される選択肢を2つ選んでください。
+      ソースコードの　//ここに挿入する//　に入れて正しく表示される選択肢を2つ選んでください。
     code: |
       public class Sample {
           public static void main(String[] args) {
@@ -737,11 +706,9 @@ questions:
       次のプログラムを実行したときの出力として、正しいものを選びなさい。
     code: |
       import java.util.Arrays;
-
       public class Sample {
         public static void main(String[] args) {
           int[] numbers = {10, 20, 30};
-  
           System.out.println(Arrays.toString(numbers));
         }
       }
@@ -769,7 +736,6 @@ questions:
         public static void main(String[] args) {
           int rank = 1;
           String result;
-    
           switch(rank) {
             case 1:
               result = "Gold";
@@ -838,9 +804,7 @@ questions:
             {2, 5, 3},
             {3, 4, 6}
           };
-    
           int sum = 0;
-    
           for(int i = 0; i < nums.length; i++) {
             for(int j = 0; j < nums[i][0]; j++) {
               if(nums[i][j] % 2 == 0) {
@@ -871,7 +835,6 @@ questions:
         public static void main(String[] args) {
           double num = 2.0;
           int result = 0;
-    
           switch(num) {
             case 1.0:
               result += 10;
@@ -909,20 +872,12 @@ questions:
         public static void main(String[] args) {
           int a = 2;
           int b = 3;
-    
           if (++a > 2 && b++ > 5) {
-    
-            if (a++ > 3 || ++b > 5) {
-              a++;
-            } else {
-              b++;
-            }
+            if (a++ > 3 || ++b > 5) { a++; } 
+            else { b++; }
           } else {
-            if (a++ > 3 || ++b > 5) {
-              b++;
-            } else {
-              a++;
-            }
+            if (a++ > 3 || ++b > 5) { b++; } 
+            else { a++; }
           }
         System.out.println(a + b);
         }
@@ -1037,7 +992,6 @@ questions:
     code: |
       public class Main {
         public static void main(String[] args) {
-    
           for (int i = 1; i <= 4; i++)
           if (i % 2 == 0)
           System.out.print(i);
@@ -1066,9 +1020,7 @@ questions:
     code: |
       public class Color {
         public static void main(String[] args) {
-    
           String color = "red";
-    
           String result = switch (color) {
             case "blue" -> "A";
             case "red" -> { yield "B";}
@@ -1098,12 +1050,9 @@ questions:
     code: |
       public class Main {
         public static void main(String[] args) {
-    
           int a = 2;
           int b = 3;
-    
           boolean result = a + b * 2 > 10 || a++ > 2;
-    
           System.out.print(a);
         }
       }
@@ -1125,24 +1074,19 @@ questions:
     code: |
       class Person {
         String name;
-
         Person(String name) {
           this.name = name;
         }
-
         public boolean equals(Person per) {
           if(per == null){ return false }
           return this.num == per.num;
         }
       }
-
       public class Main {
         public static void main(String[] args) {
-  
           Person p1 = new Person("Tom");
           Person p2 = new Person("Tom");
           Object obj = p2;
-  
           System.out.println(p1.equals(obj)); 
         }
       }
@@ -1169,7 +1113,6 @@ questions:
         text: |
           public class Main {
               public static void main(String[] args) {
-
                   var num;
                   num = 10;
               }
@@ -1177,7 +1120,6 @@ questions:
       - id: b
         text: |
           public class Main {
-          
               var num = 10;
               num = 20;
           }
@@ -1186,7 +1128,6 @@ questions:
           import java.util.ArrayList;
           public class Main {
               public static void main(String[] args) {
-
                   var list = new ArrayList();
                   list = null;
               }
@@ -1195,7 +1136,6 @@ questions:
         text: |
           public class Main {
               public static void main(String[] args) {
-
                 String text = "Java";              
                 if (var flag = true) {     
                   System.out.println(text);
@@ -1217,12 +1157,10 @@ questions:
         public String name = "Report";
         void print() {System.out.println(name);}
       }
-
       class Summary extends Report {
         private String name = "Summary";
         protected void print() {System.out.println(name);}
       }
-
       public class Main {
         public static void main(String[] args) {
           Report r = new Summary();
@@ -1247,20 +1185,15 @@ questions:
     code: |
       import java.util.Arrays;
       import java.util.List;
-  
       interface Processor {
-  
         default void process(List<String> values) {
           for (String value : values) {
             System.out.print(value);
           }
         }
       }
-
       class DataProcessor implements Processor { }
-
       class CustomProcessor extends DataProcessor {
-  
         @Override
         public void process(List<String> values) {
           System.out.print("[");
@@ -1268,19 +1201,15 @@ questions:
           System.out.print("]");
         }
       }
-
       public class Main {
         public static void main(String[] args) {
-  
           List<String> data = Arrays.asList(
             "A",
             "B",
             "C"
           );
-  
           Processor p1 = new DataProcessor();
           Processor p2 = new CustomProcessor();
-  
           p1.process(data);
           System.out.println();
           p2.process(data);
@@ -1309,43 +1238,33 @@ questions:
       次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
     code: |
       class Account {
-
         String name = "A";
-
         Account() {
           System.out.print(name);
           print();
         }
-
         void print() {
           System.out.print("D");
         }
       }
-
       class Report extends Account {
-  
         String name = "B";
-  
         Report() {
           this("C");
           System.out.print(name);
         }
-
         Report(String value) {
           super();
           System.out.print(value);
           System.out.print(super.name);
         }
-
         @Override
           void print() {
           System.out.print(name);
         }
       }
-
       public class Main {
         public static void main(String[] args) {
-  
           Report r = new Report();
         }
       }
@@ -1378,7 +1297,6 @@ questions:
       - id: a
         text: |
           final class Add implements Calculator {
-
               public int calc(int a, int b) {
                   return a + b;
               }
@@ -1386,7 +1304,6 @@ questions:
       - id: b
         text: |
           non-sealed class Subtract implements Calculator {
-
               int calc(int a, int b) {
                   return a - b;
               }
@@ -1394,7 +1311,6 @@ questions:
       - id: c
         text: |
           final class Add implements Calculator {
-
               protected int calc(int a, int b) {
                   return a + b;
               }
@@ -1402,7 +1318,6 @@ questions:
       - id: d
         text: |
           sealed class Subtract implements Calculator permits Minus {
-
               public int calc(int a, int b) {
                   return a - b;
               }
@@ -1410,7 +1325,6 @@ questions:
       - id: e
         text: |
           class Add implements Calculator {
-
               public int calc(int a, int b) {
                   return a + b;
               }
@@ -1423,35 +1337,26 @@ questions:
       次のプログラムを実行したときの結果として正しいものを選んでください。
     code: |
       abstract class Base {
-
         private void display() {
           System.out.println("Base");
         }
-
         public void execute() {
           display();
         }
-
         abstract void run();
       }
-
       class Child extends Base {
-  
         public void display() {
           System.out.println("Child");
         }
-
         @Override
         void run() {
           System.out.println("Run");
         }
       }
-
       public class Main {
-        public static void main(String[] args) {
-  
+        public static void main(String[] args) { 
           Base obj = new Child();
-  
           obj.execute();
         } 
       }
@@ -1472,16 +1377,12 @@ questions:
       次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
     code: |
       interface Setting {
-
         static int count = 0;
-
         static void add() { count++;}
       }
 
       class Manager implements Setting {
-  
         int num = 10;
-  
         void update() { 
           Setting.add();
           num++;
@@ -1490,13 +1391,10 @@ questions:
 
       public class Main {
         public static void main(String[] args) {
-  
           Manager m1 = new Manager();
           Manager m2 = new Manager();
-  
           m1.update();
           m2.update();
-
           System.out.println(Setting.count + m2.num);
         }
       }
@@ -1523,26 +1421,21 @@ questions:
       interface A {
         void print();
       }
-
       interface B {
         default void print() {
           System.out.println("B");
         }
       }
-
       abstract class Sample implements A, B {
-  
         @Override
         public void print() {
           B.super.print();
         }
       }
-
       class Result extends Sample { }
-
+      
       public class Main {
         public static void main(String[] args) {
-  
           Result r = new Result();
           r.print();  
         }
@@ -1577,7 +1470,6 @@ questions:
           // 価格変更処理
         }
       }
-
       public class Sample {
         public static void main(String[] args) {
           // insert code here
@@ -1615,23 +1507,19 @@ questions:
       次のコードをコンパイルして実行した結果として、最も適切なものを選びなさい。
     code: |
       record Person(String name, int age) {
-
         public Person {
           if (age < 0) { age = 0; }
         }
-
         public Person(String name) { this(name, -1);}
 
         public void print() {
           System.out.println(name + ":" + age);
         }
       }
-
       public class Main {
         public static void main(String[] args) {
           Person p1 = new Person("Alice");
           Person p2 = new Person("Bob", 20);
-  
           p1.print();
           p2.print();
         }
@@ -1660,10 +1548,8 @@ questions:
     code: |
       public class Main {
         public static void main(String[] args) {
-    
           Animal a = new Dog();
           Dog d = new Dog();
-    
           a = d;                  // (1)
           d = a;                  // (2)
           d = (Dog)a;             // (3)
@@ -1674,9 +1560,7 @@ questions:
       }
 
       class Animal {}
-  
       class Dog extends Animal {}
-  
       class Cat extends Animal {}
     options:
       - id: a
@@ -1704,36 +1588,27 @@ questions:
     code: |
       public class Main {
         public static void main(String[] args) {
-    
           int[] numbers = {2, 4, 5, 6, 7, 8, 9};
           int sum = 0;
-
           for (int n : numbers) {         
             try {   
               if (test(n)) { continue; }
               sum += n;
-
             } catch (Exception e) { sum -= 1;}
               System.out.print(sum + " ");
             }
           }     
 
         static boolean test(int calc) throws Exception {
-  
           boolean result = false;
-  
           for (int i = 1; i <= calc; i++) {
-  
             if (calc % i != 0) {continue;}
-
             if (i == 2) {
               result = true;
               break;
             }
           }
-
           if (calc % 3 == 0) {throw new Exception();}
-
           return result;
         }
       }
@@ -1756,18 +1631,14 @@ questions:
       以下のプログラムをコンパイル、実行した結果として、正しいものを選びなさい
     code: |
       public class Sample {
-
         int num = 10;
       }
       
       public class Main {
           public static void main(String[] args) {
-
               Sample s = new Sample();
               int value;
-
               if (s.num > 5) {value = s.num * 2;}
-
               System.out.println(value);
           }
       }
@@ -1788,28 +1659,22 @@ questions:
       次のプログラムをコンパイル、実行した結果として正しいものを選びなさい。
     code: |
       package library;
-
       public class Book {
         protected void printInfo() {
           System.out.println("Book");
         }
       }
-      
       package shop;
       import library.Book;
-      
       public class StoryBook extends Book {
         public void show() {
           Book b = new StoryBook();
           b.printInfo();      // (1)
         }
       }
-      
       package shop;
-
       public class Main {
           public static void main(String[] args) {
-
               StoryBook story = new StoryBook();
               story.show();
           }
@@ -1831,7 +1696,6 @@ questions:
       次のプログラムをコンパイル、実行した結果として正しいものを選びなさい。
     code: |
       public class Sample {
-
         static int num = 5;
         {
           num += 2;
@@ -1841,15 +1705,11 @@ questions:
         }
         public Sample() { num--;}
       }
-      
       public class Main {
           public static void main(String[] args) {
-
               new Sample();
               new Sample();
-
               System.out.println(Sample.num);
-
           }
       }
     options:
@@ -1877,33 +1737,26 @@ questions:
           System.out.println("bow");
         }
       }
-
       class Animal {
         Animal(String name) {
           System.out.println(name);
         }
-
         void sleep() {
           this.Animal("Dog")
           System.out.println("sleep");
         }
-
         void eat() {
           System.out.println("eat");
         }
       }
-
       class Dog extends Animal implements Pet {
-  
         void run() {
           super.sleep();
           this.bark();
         }
       }
-
       public class Main {
         public static void main(String[] args) {
-  
           Dog dog = new Dog();
           dog.run();
         }
@@ -1939,12 +1792,10 @@ questions:
           return "図形: " + area();
         }
       }
-
       public record Circle(double radius) implements Shape {
         public Circle {
           if (radius <= 0) { radius = 1.0; }
         }
-      
         @Override
         public double area() {
           return radius * radius * 3;
@@ -1954,14 +1805,12 @@ questions:
             return "円: " + area();
           }
         }
-
       public record Rectangle(double width, double height) implements Shape {
         @Override
         public double area() {
           return width * height;
         }
       }
-
       public class Sample {
         static Shape create(int type, double v) {
           if (type == 1) {
@@ -1970,12 +1819,10 @@ questions:
             return new Rectangle(v, v * 2);
           }
         }
-
         public static void main(String... args) {
           int t = Integer.parseInt(args[0]);
           double v = Double.parseDouble(args[1]);
           Shape s = create(t, v);
-
           if (s instanceof Circle c && c.radius() > 5) {
               System.out.println("大きい円: " + c.area());
           } else {
@@ -2081,7 +1928,6 @@ questions:
           this.category = category;
           System.out.println(intro());
         }
-        
         public String intro() {
           return category + ": " + getName();
         }
@@ -2089,7 +1935,6 @@ questions:
           return "動物";
         }
       }
-
       public class Dog extends Animal {
         String name = "ポチ";
         public Dog() {
@@ -2100,7 +1945,6 @@ questions:
           return name;
         }
       }
-
       public class Main {
         public static void main(String[] args) {
           Dog d = new Dog();
@@ -2148,7 +1992,6 @@ questions:
             else 
             result += 20;
           }
-      
           public static void main(String[] args) {
             test();
             System.out.println(result);
@@ -2437,7 +2280,6 @@ questions:
        abstract class Animal {
            abstract List<String> sample(int num, List<String> extra, String[] arr) throws IOException;
        }
-      
         class Dog extends Animal {
            // ここに選択肢のメソッドを実装するとする
        }
