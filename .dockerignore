@@ -1,0 +1,10 @@
+target/
+data/
+.env.slack
+.git/
+.gitignore
+.idea/
+*.iml
+.vscode/
+*.log
+slack-app-setup/.env.slack
