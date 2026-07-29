@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Java Silver 模擬試験</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <div class="exam-header">
+      <div th:replace="~{fragments/userbar :: userbar(showHistory=true)}"></div>
+    </div>
+    <div class="exam-subbar"></div>
+
+    <div class="exam-scroll-area">
+      <div class="start-wrapper">
+        <div class="start-card">
+          <div class="start-title">Java Silver 模擬試験へようこそ</div>
+
+          <div class="start-sub" th:unless="${authenticated}">
+            お名前を入力してログインしてください。
+          </div>
+          <div class="start-sub" th:if="${authenticated}">
+            <span th:text="${userName}">ユーザー</span> さん、ようこそ。試験を開始する前に、以下の注意事項をご確認ください。
+          </div>
+
+          <div th:if="${loginErrorMessage}" class="login-error-box">
+            <div class="login-error-title">⚠ ログインに失敗しました</div>
+            <div class="login-error-detail">
+              <span th:text="${loginErrorType}">Exception</span>:
+              <span th:text="${loginErrorMessage}">エラー内容</span>
+            </div>
+          </div>
+
+          <div th:if="${!authenticated and demoLoginEnabled}" class="demo-login-box">
+            <p class="demo-login-note">
+              お名前を入力するだけでログインできます。受験履歴もこの名前に紐づけて記録されます
+              （同じ名前を入力すると、同じ人として履歴が積み上がります）。
+            </p>
+            <form th:action="@{/login/demo}" method="post" class="demo-login-form">
+              <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+              <input type="text" name="name" placeholder="お名前" required="required" maxlength="50"/>
+              <button type="submit" class="exam-btn" style="border-color:var(--header-blue); color:var(--header-blue-dark);">名前だけでログイン</button>
+            </form>
+          </div>
+
+          <ul class="notice-list" th:if="${authenticated}">
+            <li>本試験は全 <strong>60問</strong>、制限時間は <strong>90分</strong> です。</li>
+            <li>問題の出題順序は試験開始時にランダムで決定され、以後は固定されます。</li>
+            <li>各問題は、選択肢の中から正しいものをチェックボックスで選択してください（単一選択・複数選択の問題があります）。</li>
+            <li>一度チェックした回答は、他の問題に移動しても保持されます。</li>
+            <li>迷う問題には「後で見る」にチェックを付けておくと、あとでまとめて見直せます。</li>
+            <li>フッターの「全問題レビュー」から、全問題の回答状況を一覧で確認できます。</li>
+            <li>制限時間になると自動的に試験が終了し、採点結果が表示されます。</li>
+            <li>「試験を終了する」ボタンを押すといつでも試験を終了できます（確認画面が表示されます）。</li>
+            <li>受験結果は入力したお名前に紐づけて履歴に保存され、あとからヘッダーの「受験履歴」で確認できます。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-footer">
+      <div class="footer-right">
+        <form th:if="${authenticated}" th:action="@{/exam/start}" method="post" style="display:contents;">
+          <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button type="submit" class="footer-link" style="border-left:none;">試験を始める</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

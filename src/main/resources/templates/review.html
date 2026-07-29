@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <title>全問題レビュー - Java Silver 模擬試験</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <div class="exam-header exam-header-compact">
+      <div class="header-left-group">
+        <div th:replace="~{fragments/userbar :: userbar(showHistory=false)}"></div>
+        <span th:if="${finished}" class="header-finished-badge">採点結果を表示中</span>
+      </div>
+      <div class="header-controls-right">
+        <div class="header-controls-panel">
+          <div class="header-timer-compact" id="timerValue">90:00</div>
+        </div>
+      </div>
+    </div>
+    <div class="exam-subbar"></div>
+
+    <div class="exam-scroll-area">
+      <div class="question-container" style="max-width:1000px;">
+        <h2 style="font-size:20px; margin-top:0;">全問題レビュー</h2>
+
+        <div class="review-toolbar">
+          <form th:action="@{/exam/review/filter}" method="post" id="filterForm">
+            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <label>
+              <input type="checkbox" name="active" id="filterCheckbox"
+                     th:checked="${reviewFilterActive}"
+                     onchange="document.getElementById('filterForm').submit();"/>
+              「後で見る」にチェックした問題だけを、前へ/次へで移動できるようにする
+            </label>
+          </form>
+
+          <div>
+            凡例：
+            <span class="legend-answered">■回答済み</span> /
+            <span class="legend-unanswered">■未回答</span> /
+            <span class="legend-marked">■後で見る</span>
+            <span th:if="${finished}"> / <span class="legend-correct">■正解</span> / <span class="legend-incorrect">■不正解</span></span>
+          </div>
+        </div>
+
+        <div class="review-grid">
+          <a class="review-cell" th:each="item : ${items}"
+             th:href="@{'/exam/question/' + ${item.position}}"
+             th:classappend="${item.markedForReview} ? 'review-cell-marked' : (${item.answered} ? 'review-cell-answered' : 'review-cell-unanswered')">
+            <span class="qnum">問題 <span th:text="${item.position}">1</span></span>
+            <span th:if="${item.answered}" class="status-answered">回答済み</span>
+            <span th:unless="${item.answered}" class="status-unanswered">未回答</span>
+            <span th:if="${item.markedForReview}" class="status-marked">★ 後で見る</span>
+            <span th:unless="${item.markedForReview}" class="status-marked status-marked-placeholder">★ 後で見る</span>
+            <span th:if="${finished and item.correct != null}">
+              <span th:if="${item.correct}" class="status-correct">◯ 正解</span>
+              <span th:unless="${item.correct}" class="status-incorrect">✕ 不正解</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-footer">
+      <div class="footer-right">
+        <a th:href="@{'/exam/question/' + ${backPosition}}" class="footer-link" style="text-decoration:none;">試験に戻る</a>
+        <a th:href="@{/exam/result}" class="footer-link" style="text-decoration:none;" th:if="${finished}">結果を見る</a>
+        <button type="button" id="reviewFinishBtn" class="footer-link" th:unless="${finished}">試験を終了する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 終了確認モーダル -->
+  <div class="modal-overlay" id="reviewFinishConfirmModal">
+    <div class="modal-box">
+      <div class="modal-title">試験を終了する</div>
+      <div class="modal-content">
+        <span class="modal-icon">!</span>
+        <span>「試験を終了する」を選択しました。<br/>試験を終了してよろしいですか？</span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary" onclick="document.getElementById('reviewFinishConfirmModal').classList.remove('open')">キャンセル</button>
+        <button type="button" onclick="window.location.href='/exam/finish'">終了する</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var reviewFinishBtn = document.getElementById('reviewFinishBtn');
+    if (reviewFinishBtn) {
+      reviewFinishBtn.addEventListener('click', function () {
+        document.getElementById('reviewFinishConfirmModal').classList.add('open');
+      });
+    }
+  </script>
+
+  <script th:inline="javascript">
+    window.EXAM_FINISHED = /*[[${finished}]]*/ false;
+    window.EXAM_END_TIME = /*[[${endTimeMillis}]]*/ 0;
+    window.EXAM_REMAINING_MILLIS = /*[[${remainingMillis}]]*/ 0;
+  </script>
+  <script th:src="@{/js/exam.js}"></script>
+</body>
+</html>

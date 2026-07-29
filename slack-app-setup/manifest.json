@@ -1,0 +1,24 @@
+{
+  "display_information": {
+    "name": "Java Silver 模擬試験",
+    "description": "Java Silver認定試験の模擬試験アプリ。Slackアカウントでログインできます。",
+    "background_color": "#0a5aa8"
+  },
+  "oauth_config": {
+    "redirect_urls": [
+      "http://localhost:8080/login/oauth2/code/slack"
+    ],
+    "scopes": {
+      "user": [
+        "openid",
+        "email",
+        "profile"
+      ]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

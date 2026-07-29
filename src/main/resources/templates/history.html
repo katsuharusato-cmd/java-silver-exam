@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <title>受験履歴 - Java Silver 模擬試験</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <div class="exam-header">
+      <div th:replace="~{fragments/userbar :: userbar(showHistory=false)}"></div>
+    </div>
+    <div class="exam-subbar"></div>
+
+    <div class="exam-scroll-area">
+      <div class="result-wrapper">
+
+        <div class="result-card" style="max-width:720px;" th:unless="${hasHistory}">
+          <div class="result-title">受験履歴</div>
+          <p style="color:#555;">まだ受験履歴がありません。試験を1回終了すると、ここに結果が記録されます。</p>
+        </div>
+
+        <div class="result-card" style="max-width:720px;" th:if="${hasHistory}">
+          <div class="result-title">受験履歴（最新の結果）</div>
+          <div class="result-detail" style="margin-bottom:8px;">
+            <span th:text="${#temporals.format(takenAt, 'yyyy/MM/dd HH:mm')}">2026/01/01 12:00</span> 受験
+          </div>
+          <div class="result-score"><span th:text="${percentage}">0</span>%</div>
+          <div class="result-detail">
+            正答数：<span th:text="${correctCount}">0</span> / <span th:text="${total}">60</span> 問
+          </div>
+
+          <div th:if="${previousPercentage != null}" class="result-delta"
+               th:classappend="${percentage ge previousPercentage} ? 'delta-up' : 'delta-down'">
+            <span th:if="${percentage gt previousPercentage}">前回（<span th:text="${previousPercentage}">0</span>%）より
+              <strong th:text="'+' + (${percentage} - ${previousPercentage}) + 'pt'">+0pt</strong> アップ</span>
+            <span th:if="${percentage lt previousPercentage}">前回（<span th:text="${previousPercentage}">0</span>%）より
+              <strong th:text="(${percentage} - ${previousPercentage}) + 'pt'">0pt</strong> ダウン</span>
+            <span th:if="${percentage == previousPercentage}">前回（<span th:text="${previousPercentage}">0</span>%）と同じ正答率です</span>
+          </div>
+
+          <!-- 分野別正答率 -->
+          <div class="result-section" th:if="${not #lists.isEmpty(categoryStats)}">
+            <div class="result-section-title">分野別正答率</div>
+            <div class="bar-chart">
+              <div class="bar-chart-row" th:each="c : ${categoryStats}">
+                <div class="bar-chart-label" th:text="${c.categoryName}">分野名</div>
+                <div class="bar-chart-track">
+                  <div class="bar-chart-fill" th:style="'width:' + ${c.percentage} + '%'"></div>
+                </div>
+                <div class="bar-chart-value">
+                  <span th:text="${c.percentage}">0</span>%
+                  <span class="bar-chart-fraction">(<span th:text="${c.correctCount}">0</span>/<span th:text="${c.totalCount}">0</span>)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 過去の受験結果との比較 -->
+          <div class="result-section" th:if="${trend != null and trend.size() gt 1}">
+            <div class="result-section-title">過去の受験結果との比較（正答率の推移）</div>
+            <div class="trend-chart">
+              <div class="trend-bar-wrap" th:each="r, iter : ${trend}">
+                <div class="trend-bar" th:style="'height:' + ${r.percentage} + '%'"
+                     th:classappend="${iter.last} ? 'trend-bar-current' : ''">
+                  <span class="trend-bar-value" th:text="${r.percentage} + '%'">0%</span>
+                </div>
+                <div class="trend-bar-date"
+                     th:text="${#temporals.format(r.takenAt, 'MM/dd')}">01/01</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 直近の受験履歴一覧 -->
+          <div class="result-section" th:if="${not #lists.isEmpty(pastResults)}">
+            <div class="result-section-title">直近の受験履歴</div>
+            <table class="result-history-table">
+              <tbody>
+                <tr th:each="r, iter : ${pastResults}" th:if="${iter.index lt 10}">
+                  <td th:text="${#temporals.format(r.takenAt, 'yyyy/MM/dd HH:mm')}">2026/01/01 12:00</td>
+                  <td><span th:text="${r.correctCount}">0</span> / <span th:text="${r.totalCount}">60</span></td>
+                  <td style="font-weight:bold;" th:text="${r.percentage} + '%'">0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exam-footer">
+      <div class="footer-right">
+        <a th:href="@{/}" class="footer-link" style="text-decoration:none;">スタートページへ戻る</a>
+        <form id="restartForm" th:action="@{/exam/restart}" method="post" style="display:contents;">
+          <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button type="button" id="restartBtn" class="footer-link">新しく試験を始める</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新しく試験を始める確認モーダル -->
+  <div class="modal-overlay" id="restartConfirmModal">
+    <div class="modal-box">
+      <div class="modal-title">新しく試験を始める</div>
+      <div class="modal-content">
+        <span class="modal-icon">!</span>
+        <span>新たに試験を始めます。よろしいですか？</span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary" onclick="document.getElementById('restartConfirmModal').classList.remove('open')">キャンセル</button>
+        <button type="button" onclick="document.getElementById('restartForm').submit();">始める</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('restartBtn').addEventListener('click', function () {
+      document.getElementById('restartConfirmModal').classList.add('open');
+    });
+  </script>
+
+</body>
+</html>

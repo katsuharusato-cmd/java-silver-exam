@@ -1,0 +1,2496 @@
+# =====================================================================
+# questions.yml — Java Silver 模擬試験 問題データ
+# ---------------------------------------------------------------------
+# ここに問題を追加・編集してください。1問につき以下の形式です。
+#
+# - id: 1                      # 問題を一意に識別する番号（重複しないこと）
+#   category: 1                # 分野番号（数値）。分野名との対応は
+#                               # com.exam.silver.model.ExamCategory を参照・編集してください。
+#   description: |             # 問題文。複数行OK（| の後に改行してインデント）
+#     次のコードをコンパイル、実行した結果として正しいものを選びなさい。
+#   code: |                    # ソースコード（無い問題は code 行ごと削除してOK）
+#     public class Sample {
+#         public static void main(String[] args) {
+#             System.out.println("Hello");
+#         }
+#     }
+#   options:                   # 選択肢（idはa,b,c...で統一）
+#     - id: a
+#       text: "Hello と表示される"
+#     - id: b
+#       text: "コンパイルエラーになる"
+#     - id: c
+#       text: "実行時に例外がスローされる"
+#     - id: d
+#       text: "何も表示されない"
+#   answers: [a]                # 正解の選択肢id（複数正解の場合は [a, c] のように書く）
+#
+# ※ answers に複数のidを書くと、自動的に「複数選択問題」として扱われます
+#   （選択できる最大数 = 正解の数、になります）。
+#
+# 分野番号の対応（ExamCategory.javaで変更可能。Java Silver試験の出題範囲に準拠）：
+#   1: Javaの概要と簡単なJavaプログラムの作成
+#   2: Javaの基本データ型と文字列の操作
+#   3: 演算子と制御構造
+#   4: クラスの定義とインスタンスの使用
+#   5: 継承とインタフェースの使用
+#   6: 例外処理
+# =====================================================================
+questions:
+  - id: 1
+    category: 1
+    description: |
+      次の説明のうち、正しいものを２つ選びなさい
+    code:
+    options:
+      - id: a
+        text: "Javaで作成したプログラムは、実行するOSごとに再コンパイルする必要がある。"
+      - id: b
+        text: "Javaコンパイラはソースコードをバイトコードへ変換し、そのバイトコードをJVMが実行する。"
+      - id: c
+        text: "Javaでは、プログラム中で使用するすべてのメモリをプログラマが明示的に解放しなければならない。"
+      - id: d
+        text: "Javaで作成したプログラムは、JVMがインストールされていれば、コンパイルを行わずに実行できる。"
+      - id: e
+        text: "Javaのプログラムは、一度コンパイルすると、対応するJVMがあれば異なるOSでも実行できる。"
+    answers: [b, e]
+
+  - id: 2
+    category: 1
+    description: |
+      次のソースコードを Hello.java という名前で保存した。カレントディレクトリに Hello.java が存在する。
+      このプログラムをコンパイルして実行するコマンドとして正しいものを1つ選びなさい。
+    code: |
+      package com.example;
+      
+      public class Hello {
+        public static void main(String[] args) {
+          System.out.println("Hello Java");
+        }
+      }
+    options:
+      - id: a
+        text: |
+          javac Hello.java
+          java Hello
+      - id: b
+        text: |
+          javac Hello.java
+          java com.example.Hello
+      - id: c
+        text: |
+          javac com.example.Hello.java
+          java com.example.Hello
+      - id: d
+        text: |
+          javac Hello.java
+          java com/example/Hello.class
+      - id: e
+        text: |
+          java Hello.java
+          java com.example.Hello
+    answers: [b]
+
+  - id: 3
+    category: 1
+    description: |
+      次のプログラムをコンパイルした。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          int sum = 0;
+          for (String value : args) {
+            sum += Integer.parseInt(value);
+          }
+          System.out.println(sum);
+          }
+      }
+      
+      次のコマンドを実行した場合、実行結果として正しいものを選びなさい。
+      
+      java Main 10 20 30
+    options:
+      - id: a
+        text: "60"
+      - id: b
+        text: "102030"
+      - id: c
+        text: |
+          10
+          20
+          30
+      - id: d
+        text: "コンパイルエラーが発生する"
+      - id: e
+        text: "NumberFormatExceptionが発生する"
+    answers: [a]
+
+  - id: 4
+    category: 1
+    description: |
+      次のプログラムについて、正しい説明を2つ選びなさい。
+    code: |
+      import java.util.ArrayList;
+      import java.util.*;
+  
+      public class Main {
+        public static void main(String[] args) {
+          ArrayList<String> list = new ArrayList<>();
+          list.add("Java");
+          System.out.println(list);
+          }
+        }
+    options:
+      - id: a
+        text: "import java.util.ArrayList; と import java.util.*; は同じクラスを読み込んでいるため、コンパイルエラーになる。"
+      - id: b
+        text: "import java.util.*; を使用すると、java.utilパッケージ内のすべてのクラスを利用できる。"
+      - id: c
+        text: "import java.util.*; を使用すると、java.utilパッケージ内のサブパッケージを利用できる。"
+      - id: d
+        text: "import宣言は必ずpackage宣言より後に記述しなければならない。"
+      - id: e
+        text: "package宣言がないクラスからは、他のパッケージにあるクラスをimportできない。"
+    answers: [b, d]
+
+  - id: 5
+    category: 6
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを選びなさい。
+    code: |
+      class MyResource implements AutoCloseable {
+        public void close() throws Exception {
+          throw new Exception("D");
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+          try (MyResource r = new MyResource()) {
+            String str = null;
+            System.out.println(str.length());
+          } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("A");
+          } catch (NullPointerException e) {
+            System.out.println("B");
+          } catch (Exception e) {
+            System.out.println("C");
+          }
+        }
+      }
+    options:
+      - id: a
+        text: "A"
+      - id: b
+        text: "B"
+      - id: c
+        text: "C"
+      - id: d
+        text: "D"
+      - id: e
+        text: "何も表示されない"
+    answers: [b]
+
+  - id: 6
+    category: 6
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを選びなさい。
+    code: |
+      public class Main {
+  
+        public static int calculate() {
+          int num = 10;
+  
+          try {
+            int value = num / 0;
+            num += 10;
+            return num;
+          } catch (ArithmeticException e) {
+            num += 10;
+            return num;
+          } finally {
+            num += 10;
+            System.out.println(num);
+          }
+        }
+
+        public static void main(String[] args) {
+          System.out.println(calculate());
+        }
+      }
+    options:
+      - id: a
+        text: |
+          40
+          30
+      - id: b
+        text: |
+          30
+          40
+      - id: c
+        text: |
+          40
+          40
+      - id: d
+        text: |
+          30
+          30
+      - id: e
+        text: |
+          20
+          30
+      - id: f
+        text: |
+          20
+          40
+      - id: g
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 7
+    category: 6
+    description: |
+      次のプログラムを実行した場合、正しい説明を1つ選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          try {
+            int[] nums = {10, 20, 30};
+            System.out.println(nums[3]);
+          } catch (RuntimeException e) {
+            System.out.println("A");
+          } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("B");
+          } catch (Exception e) {
+            System.out.println("C");
+          }
+        } 
+      }
+    options:
+      - id: a
+        text: "A"
+      - id: b
+        text: "B"
+      - id: c
+        text: "C"
+      - id: d
+        text: "コンパイルエラーになる"
+      - id: e
+        text: "何も表示されない"
+    answers: [d]
+
+  - id: 8
+    category: 6
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを選びなさい。
+    code: |
+      class Data implements AutoCloseable {
+        private String value;
+  
+        Data(String value) {
+          this.value = value;
+          System.out.print(value);
+        }
+
+        public void close() {
+          System.out.print(value);
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+          Data c = new Data("3");
+  
+          try (Data a = new Data("1");
+            Data b = new Data("2");
+            c) { }
+        }
+      }
+    options:
+      - id: a
+        text: "312321"
+      - id: b
+        text: "312123"
+      - id: c
+        text: "123321"
+      - id: d
+        text: "321123"
+      - id: e
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 9
+    category: 6
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを1つ選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          try {
+              try {
+                String[] animals = {"Java", "Silver", "SE17"};
+                System.out.println(animals[3]);
+              } catch (NullPointerException | ArithmeticException e) {
+                System.out.println("Tiger");
+              } finally {
+                System.out.println("Rabbit");
+              }
+          } catch (ArrayIndexOutOfBoundsException | RuntimeException e) {
+            System.out.println("Lion");
+          } catch (Exception e) {
+            System.out.println("Horse");
+          }
+        }
+      }
+
+    options:
+      - id: a
+        text: |
+          Tiger
+          Rabbit
+          Lion
+      - id: b
+        text: |
+          Rabbit
+          Lion
+      - id: c
+        text: |
+          Lion
+          Rabbit
+      - id: d
+        text: |
+          Rabbit
+          Horse
+      - id: e
+        text: |
+          Rabbit
+          Horse
+    answers: [e]
+
+  - id: 10
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを1つ選びなさい。
+    code: |
+      public class Animal {
+        public static void main(String[] args) {
+          String animal = "cat";
+          try {
+            System.out.println(animal);
+          } finally {
+            animal.replace("c", "b");
+            System.out.println(animal);
+          }
+        }
+      }
+    options:
+      - id: a
+        text: |
+          cat
+          cat
+      - id: b
+        text: |
+          cat
+          bat
+      - id: c
+        text: |
+          bat
+          bat
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 11
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを1つ選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          int count = 0;
+    
+          String s1 = "Java";
+          String s2 = new String("Java");
+          String s3 = s2.intern();
+    
+          if (s1 == s3) {count++;}
+
+          if (s2 == s3) {count++;}
+
+          if (s2.equals(s3)) {count++;}
+
+          System.out.println(count);
+        }
+      }
+    options:
+      - id: a
+        text: "0"
+      - id: b
+        text: "1"
+      - id: c
+        text: "2"
+      - id: d
+        text: "3"
+    answers: [c]
+
+  - id: 12
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示結果として正しいものを1つ選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          Object message = "Java Silver";
+    
+          if (message instanceof String text) {
+            text = text.replace("Silver", "SE17");
+    
+            if (message.toString().length() > 5) {
+                message = message.substring(0, 6);
+            }
+          }
+          System.out.println(text.length());
+        }
+      }
+    options:
+      - id: a
+        text: "11"
+      - id: b
+        text: "6"
+      - id: c
+        text: "5"
+      - id: d
+        text: "0"
+      - id: e
+        text: "コンパイルエラー"
+    answers: [e]
+
+  - id: 13
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示される内容として正しいものを1つ選びなさい。
+    code: |
+      import java.util.ArrayList;
+      import java.util.List;
+  
+      public class Main {
+        public static void main(String[] args) {
+          List<String> list = new ArrayList<>();
+            list.add("Java");
+            list.add("Python");
+            list.add("C++");
+            list.set(1, "Ruby");
+            list.add(1, "Kotlin");
+            list.set(0, "Go");
+  
+            System.out.println(list);
+          }
+        }
+    options:
+      - id: a
+        text: "[Go, Kotlin, Ruby, C++]"
+      - id: b
+        text: "[Go, Ruby, Kotlin, C++]"
+      - id: c
+        text: "[Java, Kotlin, Ruby, C++]"
+      - id: d
+        text: "[Go, Kotlin, Python, C++]"
+      - id: e
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 14
+    category: 2
+    description: |
+      次のプログラムを実行した場合、コンパイルエラーが発生する行は何行目か。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          int[] student20250000_information$$count = {1, 2, 3};
+          String $$$totalPayment0000Amount = "4行目";
+          int _2025_data_storage_result000 = 500;
+          int user##Information000Data = 6000;
+        }
+      }
+    options:
+      - id: a
+        text: "3行目"
+      - id: b
+        text: "4行目"
+      - id: c
+        text: "5行目"
+      - id: d
+        text: "6行目"
+      - id: e
+        text: "正常に実行される"
+    answers: [d]
+
+  - id: 15
+    category: 2
+    description: |
+      次の中から、コンパイルエラーにならないコードを3つ選びなさい。
+    code:
+    options:
+      - id: a
+        text: "int[] numbers = new int[]{10, 20, 30};"
+      - id: b
+        text: "int[] numbers = {6 + 6, 12 / 2, 3 * 4};"
+      - id: c
+        text: |
+          int[][] matrix = new int[2][];
+          matrix[0] = new int[]{1, 2};
+          matrix[1] = new int[]{3, 4, 5};
+      - id: d
+        text: "int[][] matrix = new int[][3];"
+      - id: e
+        text: "int[][] matrix = new int[2][2]{};"
+      - id: f
+        text: |
+          int[] numbers;
+          numbers = {10, 20, 30};
+    answers: [a, b, c]
+
+  - id: 16
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示される内容として正しいものを1つ選びなさい。
+    code: |
+      class Animal { }
+
+      class Dog extends Animal { }
+
+      class Cat extends Animal { }
+
+      public class Main {
+        public static void main(String[] args) {
+          Animal[] animals = {
+            new Dog(),
+            null,
+            new Cat(),
+            new Animal()
+          };
+  
+        int count = 0;
+
+        for (Animal animal : animals) {
+          if (animal instanceof Dog) {
+            count += 1;
+          } else if (animal instanceof Cat) {
+            count += 10;
+          } else {
+            count += 100;
+          }
+        }
+        System.out.println(count);
+        }
+      }
+    options:
+      - id: a
+        text: "111"
+      - id: b
+        text: "211"
+      - id: c
+        text: "201"
+      - id: d
+        text: "101"
+      - id: e
+        text: "実行時に例外がスローされる"
+    answers: [b]
+
+  - id: 17
+    category: 2
+    description: |
+      次のプログラムを実行した場合、表示される結果として正しいものを1つ選びなさい。
+    code: |
+      import java.util.ArrayList;
+      import java.util.List;
+  
+      public class Main {
+        public static void main(String[] args) {
+  
+          List<Object> list = new ArrayList<>();
+  
+          list.add("Java");
+          list.add(17);
+          list.add(true);
+          list.add(null);
+          list.add(new int[] {1, 2});
+          list.add(new ArrayList<String>());
+  
+          System.out.println(list.size());
+          System.out.println(list.get(1));
+          System.out.println(list.get(3));
+        }
+      }
+    options:
+      - id: a
+        text: |
+          6
+          17
+          null
+      - id: b
+        text: |
+          6
+          Java
+          true
+      - id: c
+        text: |
+          7
+          17
+          null
+      - id: d
+        text: |
+          5
+          Java
+          true
+      - id: e
+        text: "コンパイルエラーになる"
+      - id: f
+        text: "実行時に例外がスローされる"
+    answers: [a]
+
+  - id: 18
+    category: 2
+    description: |
+      次のプログラムを実行したときの出力として、正しいものを選びなさい。
+    code: |
+      public class Main{
+        public static void main(String[] args){
+          StringBuilder sb=new StringBuilder("Java");
+    
+          System.out.println(sb.length());
+          System.out.println(sb.capacity());
+    
+          sb.append("Programming");
+    
+          System.out.println(sb.length());
+          System.out.println(sb.capacity());
+        }
+      }
+    options:
+      - id: a
+        text: |
+          4
+          4
+          15
+          15
+      - id: b
+        text: |
+          4
+          20
+          15
+          20
+      - id: c
+        text: |
+          4
+          16
+          15
+          16
+      - id: d
+        text: |
+          4
+          20
+          15
+          31
+    answers: [b]
+
+  - id: 19
+    category: 1
+    description: |
+      次の文字列を表示したい。
+        Java "Silver"
+        \Exam
+      ソースコードの//ここに挿入する//に入れて正しく表示される選択肢を2つ選んでください。
+    code: |
+      public class Sample {
+          public static void main(String[] args) {
+              //ここに挿入する//
+              System.out.println(str);
+          }
+      }
+    options:
+      - id: a
+        text: |
+          String str = "Java \"Silver\"\n\\Exam";
+      - id: b
+        text: |
+          String str = "Java \"Silver\"\\n\Exam";
+      - id: c
+        text: |
+          String str = """
+          Java "Silver"
+          \Exam""";
+      - id: d
+        text: |
+          String str = """
+          Java "Silver"
+          \\Exam""";
+      - id: e
+        text: |
+          String str = """Java \"Silver\"
+          \\Exam""";
+    answers: [a, d]
+
+  - id: 20
+    category: 2
+    description: |
+      次のプログラムを実行したときの出力として、正しいものを選びなさい。
+    code: |
+      import java.util.Arrays;
+
+      public class Sample {
+        public static void main(String[] args) {
+          int[] numbers = {10, 20, 30};
+  
+          System.out.println(Arrays.toString(numbers));
+        }
+      }
+    options:
+      - id: a
+        text: "10 20 30"
+      - id: b
+        text: "[10, 20, 30]"
+      - id: c
+        text: "何も表示されない"
+      - id: d
+        text: "ハッシュコードが表示される"
+      - id: e
+        text: "コンパイルエラーが発生する"
+      - id: f
+        text: "実行時に例外がスローされる"
+    answers: [b]
+
+  - id: 21
+    category: 3
+    description: |
+      このswitch文と同じ結果を表示するswitch式を選びなさい。
+    code: |
+      public class Sample {
+        public static void main(String[] args) {
+          int rank = 1;
+          String result;
+    
+          switch(rank) {
+            case 1:
+              result = "Gold";
+              break;
+            case 2:
+              result = "Silver";
+              break;
+            default:
+              result = "Bronze";
+          }
+          System.out.println(result);
+        }
+      }
+    options:
+      - id: a
+        text: |
+          String result = switch(rank) {
+              case 1 -> "Gold";
+              case 2 -> "Silver";
+              default -> "Bronze";
+          };
+          System.out.println(result);
+      - id: b
+        text: |
+          String result = switch(rank) {
+              case 1:
+                  "Gold";
+              case 2:
+                  "Silver";
+              default:
+                  "Bronze";
+          };
+          System.out.println(result);
+      - id: c
+        text: |
+          String result = switch(rank) {
+              case 1 -> {
+                  "Gold";
+              }
+              case 2 -> {
+                  "Silver";
+              }
+              default -> {
+                  "Bronze";
+              }
+          };
+          System.out.println(result);
+      - id: d
+        text: |
+          String result = switch(rank) {
+              case 1 -> result = "Gold";
+              case 2 -> result = "Silver";
+              default -> result = "Bronze";
+          };
+          System.out.println(result);
+    answers: [a]
+
+  - id: 22
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力として正しいものを選びなさい。
+    code: |
+      public class Sample {
+        public static void main(String[] args) {
+          int[][] nums = {
+            {2, 5, 3},
+            {3, 4, 6}
+          };
+    
+          int sum = 0;
+    
+          for(int i = 0; i < nums.length; i++) {
+            for(int j = 0; j < nums[i][0]; j++) {
+              if(nums[i][j] % 2 == 0) {
+                sum += nums[i][j];
+              }
+            }
+          }
+          System.out.println(sum);
+        }
+      }
+    options:
+      - id: a
+        text: "2"
+      - id: b
+        text: "6"
+      - id: c
+        text: "12"
+      - id: d
+        text: "18"
+    answers: [c]
+
+  - id: 23
+    category: 3
+    description: |
+      次のプログラムを実行したとき、結果として正しいものを選びなさい。
+    code: |
+      public class Sample {
+        public static void main(String[] args) {
+          double num = 2.0;
+          int result = 0;
+    
+          switch(num) {
+            case 1.0:
+              result += 10;
+              break;
+            case 2.0:
+              result += 20;
+            default:
+              result += 30;
+            case 3.0:
+              result += 40;
+              break;
+            case 4.0:
+              result += 50;
+          }
+        System.out.println(result);
+        }
+      }
+    options:
+      - id: a
+        text: "20"
+      - id: b
+        text: "50"
+      - id: c
+        text: "90"
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [d]
+
+  - id: 24
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力される値として正しいものを選びなさい。
+    code: |
+      public class Sample {
+        public static void main(String[] args) {
+          int a = 2;
+          int b = 3;
+    
+          if (++a > 2 && b++ > 5) {
+    
+            if (a++ > 3 || ++b > 5) {
+              a++;
+            } else {
+              b++;
+            }
+          } else {
+            if (a++ > 3 || ++b > 5) {
+              b++;
+            } else {
+              a++;
+            }
+          }
+        System.out.println(a + b);
+        }
+      }
+    options:
+      - id: a
+        text: "7"
+      - id: b
+        text: "8"
+      - id: c
+        text: "9"
+      - id: d
+        text: "10"
+    answers: [b]
+
+  - id: 25
+    category: 3
+    description: |
+      コンパイルエラーにならない行の番号を列挙したものとして、正しい選択肢をえらんでください。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          byte b = 10;
+          char c = 'A';
+          short s = 20;
+          int i = 30;
+          float f = 40.0f;
+          double d = 50.0;
+    
+          //①
+          i = b;
+    
+          //②
+          s = b;
+    
+          //③
+          c = b;
+    
+          //④
+          f = i;
+    
+          //⑤
+          i = f;
+    
+          //⑥
+          d = f;
+        }
+      }
+    options:
+      - id: a
+        text: "①、②、④、⑥"
+      - id: b
+        text: "①、②、④、⑤、⑥"
+      - id: c
+        text: "①、②、③、④、⑥"
+      - id: d
+        text: "①、④、⑥"
+      - id: e
+        text: "①、②、⑤"
+      - id: f
+        text: "すべてコンパイル可能"
+    answers: [a]
+
+  - id: 26
+    category: 3
+    description: |
+      次のコードと同じ結果を出力するコードを２つ選んでください。
+    code: |
+      for (int i = 1; i <= 10; i++) {
+        System.out.print(i + " ");
+      }
+    options:
+      - id: a
+        text: |
+          int i = 0;
+          while (i < 10) {
+              i++;
+              System.out.print(i + " ");
+          }
+      - id: b
+        text: |
+          int i = 1;
+          while (i++ <= 10) {
+              System.out.print((i - 1) + " ");
+          }
+      - id: c
+        text: |
+          int i = 1;
+          while (i < 10) {
+              System.out.print(i + " ");
+              i++;
+          }
+      - id: d
+        text: |
+          int i = 1;
+          do {
+            System.out.print(i + " ");
+          } while (i++ < 10);
+      - id: e
+        text: |
+          int i = 0;
+          do {
+            System.out.print((i + 1) + " ");
+            i++;
+          } while (i < 10);
+    answers: [a, d]
+
+  - id: 27
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力される値として正しいものを選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+    
+          for (int i = 1; i <= 4; i++)
+          if (i % 2 == 0)
+          System.out.print(i);
+          else
+          System.out.print("X");
+          System.out.print("Y");
+        }
+      }
+    options:
+      - id: a
+        text: "X2X4Y"
+      - id: b
+        text: "XY2YXY4Y"
+      - id: c
+        text: "X2X4XYXY"
+      - id: d
+        text: "XY2XY4"
+      - id: e
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 28
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      public class Color {
+        public static void main(String[] args) {
+    
+          String color = "red";
+    
+          String result = switch (color) {
+            case "blue" -> "A";
+            case "red" -> { yield "B";}
+            case "green" -> "C";
+            default -> "D";
+          };
+         System.out.print(result);
+        }
+      }
+    options:
+      - id: a
+        text: "B"
+      - id: b
+        text: "BCD"
+      - id: c
+        text: "D"
+      - id: d
+        text: "コンパイルエラーになる"
+      - id: e
+        text: "実行時に例外がスローされる"
+    answers: [a]
+
+  - id: 29
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+    
+          int a = 2;
+          int b = 3;
+    
+          boolean result = a + b * 2 > 10 || a++ > 2;
+    
+          System.out.print(a);
+        }
+      }
+    options:
+      - id: a
+        text: "2"
+      - id: b
+        text: "3"
+      - id: c
+        text: "10"
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [b]
+
+  - id: 30
+    category: 3
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      class Person {
+        String name;
+
+        Person(String name) {
+          this.name = name;
+        }
+
+        public boolean equals(Person per) {
+          if(per == null){ return false }
+          return this.num == per.num;
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Person p1 = new Person("Tom");
+          Person p2 = new Person("Tom");
+          Object obj = p2;
+  
+          System.out.println(p1.equals(obj)); 
+        }
+      }
+    options:
+      - id: a
+        text: "Personクラスでコンパイルエラーが発生する"
+      - id: b
+        text: "Mainクラスでコンパイルエラーが発生する"
+      - id: c
+        text: "「true」と表示される"
+      - id: d
+        text: "「false」と表示される"
+      - id: e
+        text: "実行時に例外がスローされる"
+    answers: [d]
+
+  - id: 31
+    category: 2
+    description: |
+      次のプログラムのうち、コンパイルエラーにならないものを選択してください
+    code:
+    options:
+      - id: a
+        text: |
+          public class Main {
+              public static void main(String[] args) {
+
+                  var num;
+                  num = 10;
+              }
+          }
+      - id: b
+        text: |
+          public class Main {
+          
+              var num = 10;
+              num = 20;
+          }
+      - id: c
+        text: |
+          import java.util.ArrayList;
+          public class Main {
+              public static void main(String[] args) {
+
+                  var list = new ArrayList();
+                  list = null;
+              }
+          }
+      - id: d
+        text: |
+          public class Main {
+              public static void main(String[] args) {
+
+                String text = "Java";              
+                if (var flag = true) {     
+                  System.out.println(text);
+                }
+              }
+          }
+      - id: e
+        text: "選択肢は全てコンパイルできる"
+      - id: f
+        text: "選択肢は全てコンパイルできない"
+    answers: [c]
+
+  - id: 32
+    category: 5
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      class Report {
+        public String name = "Report";
+        void print() {System.out.println(name);}
+      }
+
+      class Summary extends Report {
+        private String name = "Summary";
+        protected void print() {System.out.println(name);}
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+          Report r = new Summary();
+          ((Report)r).print();
+        }
+      }
+    options:
+      - id: a
+        text: "Report"
+      - id: b
+        text: "Summary"
+      - id: c
+        text: "コンパイルエラーになる"
+      - id: d
+        text: "実行時に例外がスローされる"
+    answers: [b]
+
+  - id: 33
+    category: 5
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      import java.util.Arrays;
+      import java.util.List;
+  
+      interface Processor {
+  
+        default void process(List<String> values) {
+          for (String value : values) {
+            System.out.print(value);
+          }
+        }
+      }
+
+      class DataProcessor implements Processor { }
+
+      class CustomProcessor extends DataProcessor {
+  
+        @Override
+        public void process(List<String> values) {
+          System.out.print("[");
+          Processor.super.process(values);
+          System.out.print("]");
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          List<String> data = Arrays.asList(
+            "A",
+            "B",
+            "C"
+          );
+  
+          Processor p1 = new DataProcessor();
+          Processor p2 = new CustomProcessor();
+  
+          p1.process(data);
+          System.out.println();
+          p2.process(data);
+        }
+      }
+    options:
+      - id: a
+        text: |
+          ABC
+          ABC
+      - id: b
+        text: |
+          ABC
+          [ABC]
+      - id: c
+        text: |
+          [ABC]
+          [ABC]
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [b]
+
+  - id: 34
+    category: 5
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      class Account {
+
+        String name = "A";
+
+        Account() {
+          System.out.print(name);
+          print();
+        }
+
+        void print() {
+          System.out.print("D");
+        }
+      }
+
+      class Report extends Account {
+  
+        String name = "B";
+  
+        Report() {
+          this("C");
+          System.out.print(name);
+        }
+
+        Report(String value) {
+          super();
+          System.out.print(value);
+          System.out.print(super.name);
+        }
+
+        @Override
+          void print() {
+          System.out.print(name);
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Report r = new Report();
+        }
+      }
+    options:
+      - id: a
+        text: "AnullCAB"
+      - id: b
+        text: "ADCAB"
+      - id: c
+        text: "ABCAB"
+      - id: d
+        text: "CBADB"
+      - id: e
+        text: "ADCBA"
+      - id: f
+        text: "ADCBA"
+      - id: g
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 35
+    category: 5
+    description: |
+      次の Calculator インタフェースを実装できるクラスを 2つ選びなさい。
+    code: |
+      sealed interface Calculator permits Add, Subtract {
+        int calc(int a, int b);
+      }
+    options:
+      - id: a
+        text: |
+          final class Add implements Calculator {
+
+              public int calc(int a, int b) {
+                  return a + b;
+              }
+          }
+      - id: b
+        text: |
+          non-sealed class Subtract implements Calculator {
+
+              int calc(int a, int b) {
+                  return a - b;
+              }
+          }
+      - id: c
+        text: |
+          final class Add implements Calculator {
+
+              protected int calc(int a, int b) {
+                  return a + b;
+              }
+          }
+      - id: d
+        text: |
+          sealed class Subtract implements Calculator permits Minus {
+
+              public int calc(int a, int b) {
+                  return a - b;
+              }
+          }
+      - id: e
+        text: |
+          class Add implements Calculator {
+
+              public int calc(int a, int b) {
+                  return a + b;
+              }
+          }
+    answers: [a, d]
+
+  - id: 36
+    category: 5
+    description: |
+      次のプログラムを実行したときの結果として正しいものを選んでください。
+    code: |
+      abstract class Base {
+
+        private void display() {
+          System.out.println("Base");
+        }
+
+        public void execute() {
+          display();
+        }
+
+        abstract void run();
+      }
+
+      class Child extends Base {
+  
+        public void display() {
+          System.out.println("Child");
+        }
+
+        @Override
+        void run() {
+          System.out.println("Run");
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Base obj = new Child();
+  
+          obj.execute();
+        } 
+      }
+    options:
+      - id: a
+        text: "「Base」が出力される"
+      - id: b
+        text: "「Child」が出力される"
+      - id: c
+        text: "「Run」が出力される"
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [a]
+
+  - id: 37
+    category: 5
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      interface Setting {
+
+        static int count = 0;
+
+        static void add() { count++;}
+      }
+
+      class Manager implements Setting {
+  
+        int num = 10;
+  
+        void update() { 
+          Setting.add();
+          num++;
+        }       
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Manager m1 = new Manager();
+          Manager m2 = new Manager();
+  
+          m1.update();
+          m2.update();
+
+          System.out.println(Setting.count + m2.num);
+        }
+      }
+    options:
+      - id: a
+        text: "12"
+      - id: b
+        text: "13"
+      - id: c
+        text: "14"
+      - id: d
+        text: "11"
+      - id: e
+        text: "10"
+      - id: f
+        text: "コンパイルエラーになる"
+    answers: [f]
+
+  - id: 38
+    category: 5
+    description: |
+      次のソースコードについて、正しい説明を１つ選んでください。
+    code: |
+      interface A {
+        void print();
+      }
+
+      interface B {
+        default void print() {
+          System.out.println("B");
+        }
+      }
+
+      abstract class Sample implements A, B {
+  
+        @Override
+        public void print() {
+          B.super.print();
+        }
+      }
+
+      class Result extends Sample { }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Result r = new Result();
+          r.print();  
+        }
+      }
+    options:
+      - id: a
+        text: |
+          Sampleは抽象クラスであるため、AとBのprint()を実装することはできない。
+          Resultで実装していないためコンパイルエラーになる。
+      - id: b
+        text: |
+          Bのprint()はdefaultメソッドであるため、SampleでB.super.print()を呼び出すことで、
+          AとBのメソッドの競合を解決できる。Resultは追加の実装を行う必要はない。
+      - id: c
+        text: |
+          defaultメソッドは抽象メソッドより優先されるため、Sampleのprint()は不要であり、削除しても同じ結果になる。
+      - id: d
+        text: |
+          B.super.print()はResultから呼び出す必要があるため、Sampleに記述するとコンパイルエラーになる。
+    answers: [b]
+
+  - id: 39
+    category: 4
+    description: |
+      次のプログラムについて、// insert code here に記述するとコンパイルエラーになるものを2つ選びなさい。
+    code: |
+      public record Product(String name, int price) {
+
+        public String getName() { return name; }
+
+        public void changePrice(int price) {
+          // 価格変更処理
+        }
+      }
+
+      public class Sample {
+        public static void main(String[] args) {
+          // insert code here
+        }
+      }
+    options:
+      - id: a
+        text: |
+          Product p = new Product("Apple", 100);
+          System.out.println(p.name());
+      - id: b
+        text: |
+          Product p = new Product("Banana", 200);
+          System.out.println(p.getName());
+      - id: c
+        text: |
+          Product p = new Product("Orange", 300);
+          p.price = 500;
+      - id: d
+        text: |
+          Product p = new Product("Melon", 400);
+          System.out.println(p);
+      - id: e
+        text: |
+          Product p = new Product("Grape", 500);
+          p.changePrice(600);
+      - id: f
+        text: |
+          Product p = new Product("Peach");
+    answers: [c, f]
+
+  - id: 40
+    category: 4
+    description: |
+      次のコードをコンパイルして実行した結果として、最も適切なものを選びなさい。
+    code: |
+      record Person(String name, int age) {
+
+        public Person {
+          if (age < 0) { age = 0; }
+        }
+
+        public Person(String name) { this(name, -1);}
+
+        public void print() {
+          System.out.println(name + ":" + age);
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+          Person p1 = new Person("Alice");
+          Person p2 = new Person("Bob", 20);
+  
+          p1.print();
+          p2.print();
+        }
+      }
+    options:
+      - id: a
+        text: |
+          Alice:-1
+          Bob:20
+      - id: b
+        text: |
+          Alice:0
+          Bob:20
+      - id: c
+        text: |
+          Alice:0
+          Bob:0
+      - id: d
+        text: "コンパイルエラーになる"
+    answers: [b]
+
+  - id: 41
+    category: 4
+    description: |
+      次のプログラムについて、コンパイルエラーになる箇所をすべて選んだ組み合わせとして正しいものを選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+    
+          Animal a = new Dog();
+          Dog d = new Dog();
+    
+          a = d;                  // (1)
+          d = a;                  // (2)
+          d = (Dog)a;             // (3)
+          Cat c = (Cat)a;         // (4)
+          a = new Animal();       // (5)
+          d = (Dog)a;             // (6)
+        }
+      }
+
+      class Animal {}
+  
+      class Dog extends Animal {}
+  
+      class Cat extends Animal {}
+    options:
+      - id: a
+        text: "(2)"
+      - id: b
+        text: "(2),(4)"
+      - id: c
+        text: "(2),(6)"
+      - id: d
+        text: "(4)"
+      - id: e
+        text: "(6)"
+      - id: f
+        text: "(2),(4),(6)"
+      - id: g
+        text: "(4),(6)"
+      - id: h
+        text: "コンパイルエラーは発生しない"
+    answers: [a]
+
+  - id: 42
+    category: 4
+    description: |
+      次のプログラムを実行したとき、出力される結果として正しいものを選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+    
+          int[] numbers = {2, 4, 5, 6, 7, 8, 9};
+          int sum = 0;
+
+          for (int n : numbers) {         
+            try {   
+              if (test(n)) { continue; }
+              sum += n;
+
+            } catch (Exception e) { sum -= 1;}
+              System.out.print(sum + " ");
+            }
+          }     
+
+        static boolean test(int calc) throws Exception {
+  
+          boolean result = false;
+  
+          for (int i = 1; i <= calc; i++) {
+  
+            if (calc % i != 0) {continue;}
+
+            if (i == 2) {
+              result = true;
+              break;
+            }
+          }
+
+          if (calc % 3 == 0) {throw new Exception();}
+
+          return result;
+        }
+      }
+    options:
+      - id: a
+        text: "5 4 11 10"
+      - id: b
+        text: "0 0 5 4 11 11 10"
+      - id: c
+        text: "5 5 12 11"
+      - id: d
+        text: "5 4 10 9"
+      - id: e
+        text: "4 3 10 9"
+    answers: [a]
+
+  - id: 43
+    category: 4
+    description: |
+      以下のプログラムをコンパイル、実行した結果として、正しいものを選びなさい
+    code: |
+      public class Sample {
+
+        int num = 10;
+      }
+      
+      public class Main {
+          public static void main(String[] args) {
+
+              Sample s = new Sample();
+              int value;
+
+              if (s.num > 5) {value = s.num * 2;}
+
+              System.out.println(value);
+          }
+      }
+    options:
+      - id: a
+        text: "20が表示される"
+      - id: b
+        text: "10が表示される"
+      - id: c
+        text: "コンパイルエラーが発生する"
+      - id: d
+        text: "実行時に例外がスローされる"
+    answers: [c]
+
+  - id: 44
+    category: 4
+    description: |
+      次のプログラムをコンパイル、実行した結果として正しいものを選びなさい。
+    code: |
+      package library;
+
+      public class Book {
+        protected void printInfo() {
+          System.out.println("Book");
+        }
+      }
+      
+      package shop;
+      import library.Book;
+      
+      public class StoryBook extends Book {
+        public void show() {
+          Book b = new StoryBook();
+          b.printInfo();      // (1)
+        }
+      }
+      
+      package shop;
+
+      public class Main {
+          public static void main(String[] args) {
+
+              StoryBook story = new StoryBook();
+              story.show();
+          }
+      }
+    options:
+      - id: a
+        text: "Book と表示される"
+      - id: b
+        text: "null と表示される"
+      - id: c
+        text: "コンパイルエラーが発生する"
+      - id: d
+        text: "実行時に例外がスローされる"
+    answers: [c]
+
+  - id: 45
+    category: 4
+    description: |
+      次のプログラムをコンパイル、実行した結果として正しいものを選びなさい。
+    code: |
+      public class Sample {
+
+        static int num = 5;
+        {
+          num += 2;
+        }
+        static {
+          num *= 2;
+        }
+        public Sample() { num--;}
+      }
+      
+      public class Main {
+          public static void main(String[] args) {
+
+              new Sample();
+              new Sample();
+
+              System.out.println(Sample.num);
+
+          }
+      }
+    options:
+      - id: a
+        text: "5"
+      - id: b
+        text: "11"
+      - id: c
+        text: "12"
+      - id: d
+        text: "22"
+      - id: e
+        text: "23"
+      - id: f
+        text: "14"
+    answers: [c]
+
+  - id: 46
+    category: 4
+    description: |
+      このプログラムをコンパイル、実行した結果として、正しいものを選びなさい。
+    code: |
+      interface Pet {
+        default void bark() {
+          System.out.println("bow");
+        }
+      }
+
+      class Animal {
+        Animal(String name) {
+          System.out.println(name);
+        }
+
+        void sleep() {
+          this.Animal("Dog")
+          System.out.println("sleep");
+        }
+
+        void eat() {
+          System.out.println("eat");
+        }
+      }
+
+      class Dog extends Animal implements Pet {
+  
+        void run() {
+          super.sleep();
+          this.bark();
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+  
+          Dog dog = new Dog();
+          dog.run();
+        }
+      }
+    options:
+      - id: a
+        text: |
+          Dog
+          sleep
+          bow    と表示される
+      - id: b
+        text: |
+          Dog
+          sleep   と表示されてから例外がスローされる
+      - id: c
+        text: "コンパイルエラーになる"
+      - id: d
+        text: |
+          null
+          sleep
+          bow    と表示される
+    answers: [c]
+
+  - id: 47
+    category: 3
+    description: |
+      このプログラムを次のコマンドで実行したときの結果として、正しいものを1つ選びなさい。
+      > java Sample 1 0
+    code: |
+      public interface Shape {
+        double area();
+        default String label() {
+          return "図形: " + area();
+        }
+      }
+
+      public record Circle(double radius) implements Shape {
+        public Circle {
+          if (radius <= 0) { radius = 1.0; }
+        }
+      
+        @Override
+        public double area() {
+          return radius * radius * 3;
+        }
+        @Override
+          public String label() {
+            return "円: " + area();
+          }
+        }
+
+      public record Rectangle(double width, double height) implements Shape {
+        @Override
+        public double area() {
+          return width * height;
+        }
+      }
+
+      public class Sample {
+        static Shape create(int type, double v) {
+          if (type == 1) {
+            return new Circle(v);
+          } else {
+            return new Rectangle(v, v * 2);
+          }
+        }
+
+        public static void main(String... args) {
+          int t = Integer.parseInt(args[0]);
+          double v = Double.parseDouble(args[1]);
+          Shape s = create(t, v);
+
+          if (s instanceof Circle c && c.radius() > 5) {
+              System.out.println("大きい円: " + c.area());
+          } else {
+            System.out.println(s.label());
+          }
+        }
+      }
+    options:
+      - id: a
+        text: "大きい円: 3.0"
+      - id: b
+        text: "円: 3.0"
+      - id: c
+        text: "円: 300.0"
+      - id: d
+        text: "実行時に例外がスローされる"
+      - id: e
+        text: "コンパイルエラーになる"
+    answers: [b]
+
+  - id: 48
+    category: 5
+    description: |
+      次のプログラムを確認し、コンパイルエラーとなるコードを2つ選びなさい。
+    code: |
+      public abstract class Animal {}
+      public interface Printable {}
+      public class Dog extends Animal implements Printable {}
+      public class Puppy extends Dog {}
+    options:
+      - id: a
+        text: |
+          List<Animal> listA = new ArrayList<>();
+          Object obj = new Puppy();
+          listA.add((Animal) obj);
+      - id: b
+        text: |
+          List<Dog> listB = new ArrayList<>();
+          Animal a = new Puppy();
+          listB.add(a);
+      - id: c
+        text: |
+          List<Printable> listC = new ArrayList<>();
+          listC.add((Printable) new Animal());
+      - id: d
+        text: |
+          List<Puppy> listD = new ArrayList<>();
+          Dog d = new Puppy();
+          listD.add((Puppy) d);
+      - id: e
+        text: |
+          List<Dog> listE = new ArrayList<>();
+          Printable p = new Puppy();
+          listE.add((Dog) p);
+    answers: [b, c]
+
+  - id: 49
+    category: 4
+    description: |
+      次のメソッドのうち、コンパイルエラーとなるものを2つ選びなさい。
+    code:
+    options:
+      - id: a
+        text: |
+          public int methodA(char c) {
+              return c;
+          }
+      - id: b
+        text: |
+          public short methodB(char c) {
+              return c;
+          }
+      - id: c
+        text: |
+          public int methodC(boolean flag) {
+              if (flag) {
+                  return 10;
+              }
+          }
+      - id: d
+        text: |
+          public char methodD(int code) {
+              if (code > 0) {
+                  return (char) code;
+              }
+              return 'A';
+          }
+      - id: e
+        text: |
+          public int methodE(byte a, byte b) {
+              return a + b;
+          }
+    answers: [b, c]
+
+  - id: 50
+    category: 4
+    description: |
+      次のプログラムをコンパイル、実行したときの結果として、正しいものを選びなさい。
+    code: |
+      public class Animal {
+        String category;
+        public Animal(String category) {
+          this.category = category;
+          System.out.println(intro());
+        }
+        
+        public String intro() {
+          return category + ": " + getName();
+        }
+        public String getName() {
+          return "動物";
+        }
+      }
+
+      public class Dog extends Animal {
+        String name = "ポチ";
+        public Dog() {
+          super("犬");
+        }
+        @Override
+        public String getName() {
+          return name;
+        }
+      }
+
+      public class Main {
+        public static void main(String[] args) {
+          Dog d = new Dog();
+          System.out.println(d.getName());
+        }
+      }
+    options:
+      - id: a
+        text: |
+          犬: ポチ
+          ポチ
+      - id: b
+        text: |
+          犬: null
+          ポチ
+      - id: c
+        text: |
+          犬: 動物
+          ポチ
+      - id: d
+        text: "コンパイルエラーになる"
+      - id: e
+        text: "実行時に例外がスローされる"
+    answers: [b]
+
+  - id: 51
+    category: 3
+    description: |
+      次のプログラムをコンパイル、実行した結果が 11 と表示されるとき、
+      空欄に入るコードとして、正しいものを選びなさい。
+    code: |
+      public class Sample {
+        private static int result = 0;
+          private static boolean a() {
+            result += 1;
+            return true;
+          }
+          private static boolean b() {
+            result += 2;
+            return false;
+          }
+          public static void test() {
+            if (　　　　//空欄       ) 
+            result += 10;
+            else 
+            result += 20;
+          }
+      
+          public static void main(String[] args) {
+            test();
+            System.out.println(result);
+          }
+        }
+    options:
+      - id: a
+        text: "a() != b()"
+      - id: b
+        text: "a() | b()"
+      - id: c
+        text: "a() == b()"
+      - id: d
+        text: "a() & b()"
+      - id: e
+        text: "a() || b()"
+      - id: f
+        text: "a() && b()"
+    answers: [e]
+
+  - id: 52
+    category: 4
+    description: |
+      次のプログラムをコンパイル、実行したときの結果として、正しいものを選びなさい。
+    code: |
+      public class Main {
+        public static void main(String[] args) {
+          A a = new C();
+          System.out.print(a.data + "," + a.getData() + "|");
+          B b = (B) a;
+          System.out.print(b.data + "," + b.getData() + "|");
+          C c = (C) a;
+          System.out.print(c.data + "," + c.getData() + "|");
+        }
+      }
+      class A {
+        public int data = 1;
+        public int getData() { return data; }
+      }
+      class B extends A {
+        public int data = 2;
+        public int getData() { return data; }
+      } 
+      class C extends B {
+        public int data = 3;
+        public int getData() { return data; }
+      }
+    options:
+      - id: a
+        text: "1,1|2,2|3,3|"
+      - id: b
+        text: "1,3|2,3|3,3|"
+      - id: c
+        text: "3,3|3,3|3,3|"
+      - id: d
+        text: "1,3|2,3|2,3|"
+      - id: e
+        text: "1,1|2,3|3,3|"
+      - id: f
+        text: "3,1|3,2|3,3|"
+    answers: [b]
+
+  - id: 53
+    category: 3
+    description: |
+      コンパイル、実行した結果として正しいものは次のどれですか。1つ選択してください。
+    code: |
+      public class Main {
+      public static void main(String[] args) {
+        int[][] ary = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+        for (int[] row : ary) {
+            if (row.length == 2) {
+                row = new int[]{100, 200, 300};
+            }
+            for (int i = 0; i < row.length; i++) {
+                row[i] *= 2;
+            }
+        }
+        for (int[] row : ary) {
+            for (int n : row) {
+                System.out.print(n + " ");
+            }
+        }
+      }
+      }
+    options:
+      - id: a
+        text: "2 4 6 4 5 12 14 16 18"
+      - id: b
+        text: "2 4 6 8 10 12 14 16 18"
+      - id: c
+        text: "2 4 6 200 400 600 12 14 16 18"
+      - id: d
+        text: "1 2 3 4 5 6 7 8 9"
+      - id: e
+        text: "コンパイルエラーになる"
+      - id: f
+        text: "実行時に例外がスローされる"
+    answers: [a]
+
+  - id: 54
+    category: 5
+    description: |
+      以下のメソッドの内、インタフェースに定義できないものを２つ選んでください。
+    code:
+    options:
+      - id: a
+        text: |
+          int methodA();
+      - id: b
+        text: |
+          default Number methodB() { return 100; }
+      - id: c
+        text: |
+          static final String methodC() { return "C"; }
+      - id: d
+        text: |
+          private static void methodD() { }
+      - id: e
+        text: |
+          private default String methodE() { return "E"; }
+      - id: f
+        text: |
+          public abstract int methodF();
+    answers: [c, e]
+
+  - id: 55
+    category: 4
+    description: |
+      次のコードをコンパイルした結果として正しい説明は次のどれですか。
+      1つ選択してください。
+    code: |
+      1.  package shape;
+      2.  public class Shape {
+      3.      protected int size;
+      4.      protected Shape(int size) {
+      5.          this.size = size;
+      6.      }
+      7.      protected void resize(int size) {
+      8.          this.size = size;
+      9.      }
+      10. }
+      
+      1.  package app;
+      2.  import shape.Shape;
+      3.  public class Square extends Shape {
+      4.      public Square(int size) {
+      5.          super(size);
+      6.      }
+      7.      public void test(Square s1, Shape s2) {
+      8.          s1.resize(10);
+      9.          s2.resize(20);
+      10.     }
+      11. }
+      
+      1.  package app;
+      2.  public class Main {
+      3.      public static void main(String[] args) {
+      4.          Square sq = new Square(5);
+      5.          sq.test(sq, sq);
+      6.      }
+      7.  }
+    options:
+      - id: a
+        text: "すべてのファイルがコンパイルに成功する"
+      - id: b
+        text: "Square.javaの8行目でコンパイルエラーになる"
+      - id: c
+        text: "Square.javaの9行目でコンパイルエラーになる"
+      - id: d
+        text: "Square.javaの5行目でコンパイルエラーになる"
+      - id: e
+        text: "Main.javaの5行目でコンパイルエラーになる"
+      - id: f
+        text: "Square.javaの8行目と9行目の両方でコンパイルエラーになる"
+    answers: [c]
+
+  - id: 56
+    category: 2
+    description: |
+      次のコードをコンパイル、実行した結果として正しいものは次のどれですか。1つ選択してください。
+    code: |
+      public class Main {
+        static void print(long data) {
+          System.out.println("A");
+        }
+        static void print(Integer data) {
+          System.out.println("B");
+        }
+        static void print(int... data) {
+          System.out.println("C");
+        }
+        static void print(Object data) {
+          System.out.println("D");
+        }
+        
+        public static void main(String[] args) {
+          int[] nums = {1, 2, 3};
+          print(nums);
+        }
+      }
+    options:
+      - id: a
+        text: "A"
+      - id: b
+        text: "B"
+      - id: c
+        text: "C"
+      - id: d
+        text: "D"
+      - id: e
+        text: "実行時エラー"
+      - id: f
+        text: "コンパイルエラー"
+    answers: [c]
+
+  - id: 57
+    category: 4
+    description: |
+      次のコードを以下のように実行します。
+      >java Main
+      実行した結果として正しいものは次のどれですか。1つ選択してください。
+    code: |
+      public class Main {
+        static double ans;
+        public static void main(String[] args) {
+          double ans;
+          int num1;
+          int num2;
+          if (args.length == 0) {
+              num1 = 20;
+              num2 = 5;
+          }
+          if (args.length > 0) {
+              num1 = 8;
+              num2 = 2;
+          }
+          ans = num1 * num2;
+          System.out.println(ans);
+        }
+      }
+    options:
+      - id: a
+        text: "100"
+      - id: b
+        text: "100.0"
+      - id: c
+        text: "16"
+      - id: d
+        text: "16.0"
+      - id: e
+        text: "コンパイルエラー"
+      - id: f
+        text: "実行時に例外スローされる"
+    answers: [e]
+
+  - id: 58
+    category: 4
+    description: |
+      次の説明の中から、正しいものを３つ選んでください。
+    code:
+    options:
+      - id: a
+        text: "abstractなクラスには、privateなコンストラクタを定義することができる。"
+      - id: b
+        text: "staticなメソッドにfinal修飾子を付けることはできない。"
+      - id: c
+        text: "finalな変数は、インスタンス変数であれば宣言時に初期値を与えなくてもよい。"
+      - id: d
+        text: "staticなメソッドは、サブクラスでオーバーライドすることができる。"
+      - id: e
+        text: "abstractなクラスには、finalなフィールドを宣言することはできない。"
+      - id: f
+        text: "finalなクラスは、抽象メソッドを持つことができる。"
+      - id: g
+        text: "protectedなメンバは、同じパッケージ内のクラスからアクセスすることができる。"
+      - id: h
+        text: "abstractなメソッドには、static修飾子を付けることができる。"
+    answers: [a, c, g]
+
+  - id: 59
+    category: 5
+    description: |
+      抽象クラスAnimalのサブクラスDog内に定義できないメソッドを2つ選べ。
+    code: |
+       abstract class Animal {
+           abstract List<String> sample(int num, List<String> extra, String[] arr) throws IOException;
+       }
+      
+        class Dog extends Animal {
+           // ここに選択肢のメソッドを実装するとする
+       }
+    options:
+      - id: a
+        text: |
+          public List<String> sample(int num, List<String> extra, String[] arr) throws IOException {
+              return null;
+          }
+      - id: b
+        text: |
+          public List<String> sample(int num, List<String> extra, String... arr) throws IOException {
+              return new ArrayList<>(extra);
+          }
+      - id: c
+        text: |
+          protected List<String> sample(int num, List<String> extra, String[] arr) throws IOException {
+              return new ArrayList<>(extra);
+          }
+      - id: d
+        text: |
+          public List<String> sample(int num, List<String> extra, String[] arr) throws FileNotFoundException {
+              return new ArrayList<>(extra);
+          }
+      - id: e
+        text: |
+          public ArrayList<String> sample(int num, List<String> extra, String[] arr) throws IOException {
+              return new ArrayList<>(extra);
+          }
+      - id: f
+        text: |
+          public List<String> sample(int num, List<Integer> extra, String[] arr) throws IOException {
+              return new ArrayList<>();
+          }
+    answers: [c, f]
+
+  - id: 60
+    category: 6
+    description: |
+      次の記述のうち、正しいものを２つ選んでください。
+    code:
+    options:
+      - id: a
+        text: "NullPointerExceptionは検査例外である。"
+      - id: b
+        text: "IOExceptionは検査例外である。"
+      - id: c
+        text: "ArithmeticExceptionは検査例外である。"
+      - id: d
+        text: "ClassNotFoundExceptionは非検査例外である。"
+      - id: e
+        text: "ArrayIndexOutOfBoundsExceptionは非検査例外である。"
+      - id: f
+        text: "NumberFormatExceptionは検査例外である。"
+    answers: [b, e]
+

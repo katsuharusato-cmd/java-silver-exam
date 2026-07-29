@@ -1,0 +1,71 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: java-silver-exam
+  thymeleaf:
+    cache: false
+
+  # ---------------------------------------------------------------
+  # 受験履歴を保存するデータベース（組み込みH2。ファイルとして永続化）
+  # PostgreSQLへの移行は一旦取りやめ、外部セットアップ不要なこの方式に戻した。
+  # ---------------------------------------------------------------
+  datasource:
+    url: jdbc:h2:file:./data/examdb;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  # ---------------------------------------------------------------
+  # Slackワークスペースでのログイン（Sign in with Slack / OpenID Connect）
+  # 事前に https://api.slack.com/apps でアプリを作成し、
+  # 「Sign in with Slack」を有効化した上で、
+  # Client ID / Client Secret / Redirect URL を設定してください。
+  # Redirect URL には次のURLを登録します：
+  #   http://localhost:8080/login/oauth2/code/slack
+  #
+  # 環境変数 SLACK_CLIENT_ID / SLACK_CLIENT_SECRET で値を渡してください。
+  # （直接ここに書き込んでも動作しますが、公開リポジトリ等には絶対にコミットしないこと）
+  # ---------------------------------------------------------------
+  security:
+    oauth2:
+      client:
+        registration:
+          slack:
+            client-id: ${SLACK_CLIENT_ID:your-slack-client-id}
+            client-secret: ${SLACK_CLIENT_SECRET:your-slack-client-secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+              - email
+            client-name: Slack
+        provider:
+          slack:
+            authorization-uri: https://slack.com/openid/connect/authorize
+            token-uri: https://slack.com/api/openid.connect.token
+            user-info-uri: https://slack.com/api/openid.connect.userInfo
+            jwk-set-uri: https://slack.com/openid/connect/keys
+            issuer-uri: https://slack.com
+            user-name-attribute: sub
+
+logging:
+  level:
+    com.exam.silver: INFO
+
+# ---------------------------------------------------------------
+# 開発用の簡易ログイン（Slackアプリの登録なしで、名前入力だけで
+# ログインできる機能）を有効にするかどうか。
+# 本番運用する場合は false にして、Slackログインのみにしてください。
+# ---------------------------------------------------------------
+app:
+  demo-login-enabled: true

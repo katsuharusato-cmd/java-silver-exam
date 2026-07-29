@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--/*
+  共通のヘッダー用ユーザー情報表示。
+  使い方: <div th:replace="~{fragments/userbar :: userbar(showHistory=true)}"></div>
+  showHistory=false にすると「受験履歴」リンクを出さない（問題を解いている画面用）。
+*/-->
+<th:block th:fragment="userbar(showHistory)">
+  <span class="header-user-bar" th:if="${authenticated}">
+    <span th:text="${userName} + ' さん'">ユーザー</span>
+    <th:block th:if="${showHistory}">・<a th:href="@{/exam/history}">受験履歴</a></th:block>
+    ・<button type="button" class="link-btn" onclick="document.getElementById('logoutConfirmModal').classList.add('open')">ログアウト</button>
+  </span>
+
+  <form id="logoutForm" th:action="@{/logout}" method="post" style="display:none;">
+    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+  </form>
+
+  <div class="modal-overlay" id="logoutConfirmModal">
+    <div class="modal-box">
+      <div class="modal-title">ログアウト</div>
+      <div class="modal-content">
+        <span class="modal-icon">!</span>
+        <span>ログアウトすると、試験は中断されて、現在の回答記録は残りませんが、よろしいですか？</span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary" onclick="document.getElementById('logoutConfirmModal').classList.remove('open')">キャンセル</button>
+        <button type="button" onclick="document.getElementById('logoutForm').submit()">ログアウトする</button>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</body>
+</html>

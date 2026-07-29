@@ -1,0 +1,1024 @@
+/* =====================================================================
+   Java Silver 模擬試験 スタイルシート
+   Pearson VUE の CBT試験画面のデザインをイメージ
+   ===================================================================== */
+
+@font-face {
+  /* PixelMplus10（ドット絵ベースのビットマップ風フォント）。フォールバック用に残置。 */
+  font-family: "PixelMplus10";
+  src: url("/fonts/PixelMplus10-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PixelMplus10";
+  src: url("/fonts/PixelMplus10-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  /* DotGothic16：16x16のドット絵ゴシックフォントを再現した書体。
+     ソースコード・選択肢に使用。輪郭そのものがカクカクしているため、
+     WindowsのChrome/Edgeでも（CSSのアンチエイリアス無効化が効かない環境でも）
+     確実にジャギーな見た目になる。 */
+  font-family: "DotGothic16";
+  src: url("/fonts/DotGothic16-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  /* PixelMplus12（10より一回り大きいドットグリッドのビットマップ風フォント）。
+     問題文だけに使用。 */
+  font-family: "PixelMplus12";
+  src: url("/fonts/PixelMplus12-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PixelMplus12";
+  src: url("/fonts/PixelMplus12-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --header-blue: #0a5aa8;
+  --header-blue-dark: #084b8c;
+  --subbar-blue: #aecbea;
+  --footer-blue: #0a5aa8;
+  --accent-red: #c0392b;
+  --border-gray: #9aa5ad;
+  --bg-white: #ffffff;
+  --text-black: #101010;
+  --correct-green: #1c7a3d;
+  --wrong-red: #b91c1c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg-white);
+  color: var(--text-black);
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ソースコード・回答の選択肢に使うフォント。
+   輪郭自体がドット絵状の埋め込みフォントを使うことで、OSやブラウザのアンチエイリアス
+   設定に関係なく（Windows上でも）ざらざら・ジャギーな見た目を確実に再現する。 */
+.classic-font {
+  font-family: "DotGothic16", "PixelMplus10", "HGPゴシックM", "MS Pゴシック", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* 問題文だけに使うフォント（PixelMplus12）。 */
+.question-text-font {
+  font-family: "PixelMplus12", "PixelMplus10", "DotGothic16", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ざらざら感を強調するノイズオーバーレイ（薄く重ねる） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  z-index: 9999;
+  background-image:
+    repeating-linear-gradient(0deg, #000 0px, transparent 1px, transparent 2px),
+    repeating-linear-gradient(90deg, #000 0px, transparent 1px, transparent 2px);
+  mix-blend-mode: multiply;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------------
+   ヘッダー
+   --------------------------------------------------------------------- */
+.exam-header {
+  background: var(--header-blue);
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 後で見る／残り時間／進捗バーの白パネルを持つページ（問題・全問題レビュー画面）用。
+   パネルの高さそのままにヘッダーの高さを合わせるため、上下のpaddingを無くす。
+   右側も余白を無くし、パネルをそのまま右端に寄せる。 */
+.exam-header-compact {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
+.header-user-bar {
+  font-weight: normal;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-user-bar a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ヘッダー右側：後で見る／残り時間／進捗バー（旧「〇〇さん・ログアウト」の位置）
+   3つをまとめて1枚の白背景パネルにする（個別に白背景を持たせない） */
+.header-controls-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-controls-panel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  color: var(--text-black);
+  padding: 6px 16px;
+  border-radius: 2px;
+  min-height: 28px;
+}
+
+.header-left-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-finished-badge {
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+.header-mark-review {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--text-black);
+}
+
+.header-mark-review input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.header-timer-compact {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  color: var(--text-black);
+}
+
+.header-timer-compact.warning {
+  color: var(--wrong-red);
+}
+
+.header-progress-track {
+  width: 60px;
+  height: 8px;
+  background: #d8dee3;
+  border: 1px solid var(--border-gray);
+  overflow: hidden;
+}
+
+.header-progress-fill {
+  height: 100%;
+  background: #fff;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 0;
+}
+
+.slack-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #4a154b;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 14px 28px;
+  border-radius: 4px;
+}
+
+.slack-login-btn:hover {
+  background: #611f69;
+}
+
+.slack-login-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: #fff;
+  color: #4a154b;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.demo-login-box {
+  border: 1px dashed var(--border-gray);
+  background: #f7f9fb;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+}
+
+.demo-login-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.demo-login-note {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+
+.demo-login-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.demo-login-form input[type="text"] {
+  flex: 1 1 200px;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-gray);
+}
+
+.login-error-box {
+  border: 1px solid var(--wrong-red);
+  background: #fdeceb;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.login-error-title {
+  font-weight: bold;
+  color: var(--wrong-red);
+  margin-bottom: 8px;
+}
+
+.login-error-detail {
+  font-family: "PixelMplus10", "MS Gothic", "ＭＳ ゴシック", monospace;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid var(--border-gray);
+  padding: 10px 12px;
+  word-break: break-word;
+  margin-bottom: 10px;
+}
+
+.login-error-hint {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.exam-subbar {
+  background: var(--subbar-blue);
+  height: 8px;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------------
+   メインレイアウト（試験画面）
+   ヘッダー／トップバー／フッターは常に固定表示し、問題エリアだけがスクロールする
+   --------------------------------------------------------------------- */
+.app-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.exam-form-shell {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.exam-topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+  padding: 10px 32px;
+  border-bottom: 1px solid var(--border-gray);
+  background: #f7f9fb;
+}
+
+.topbar-timer-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.exam-scroll-area {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.question-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 56px 24px 120px;
+}
+
+/* タイマー・進捗パネル（タイマーが上、問題数バーがその下） */
+.timer-box {
+  text-align: center;
+  min-width: 170px;
+}
+
+.timer-label {
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 2px;
+}
+
+.timer-value {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.timer-value.warning {
+  color: var(--accent-red);
+}
+
+.progress-box {
+  min-width: 170px;
+}
+
+.progress-label {
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 4px;
+  font-weight: bold;
+}
+
+.progress-track {
+  width: 100%;
+  height: 14px;
+  background: #6f6f6f;
+  border: 1px solid #444;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ffffff;
+}
+
+.mark-review-box {
+  padding: 8px 14px;
+  border: 1px solid var(--border-gray);
+  background: #fff;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark-review-box input[type="checkbox"] {
+  width: 26px;
+  height: 26px;
+}
+
+/* ---------------------------------------------------------------------
+   問題文・コード
+   --------------------------------------------------------------------- */
+.question-heading {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.question-description {
+  font-size: 19px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin-bottom: 26px;
+}
+
+.question-code {
+  background: #fff;
+  padding: 18px 4px;
+  font-size: 19px;
+  line-height: 1.7;
+  white-space: pre;
+  overflow-x: auto;
+  margin-bottom: 34px;
+}
+
+/* ---------------------------------------------------------------------
+   選択肢
+   --------------------------------------------------------------------- */
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 12px;
+  font-size: 21px;
+}
+
+.option-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  flex: 0 0 auto;
+}
+
+.option-item label {
+  cursor: pointer;
+  flex: 1 1 auto;
+  white-space: pre-wrap;
+}
+
+.option-item.correct-answer {
+  background: #e7f6ec;
+}
+
+.option-item.correct-answer label::after {
+  content: " ✔ 正解";
+  color: var(--correct-green);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.option-item.wrong-selection {
+  background: #fbe9e7;
+}
+
+.option-item.wrong-selection label::after {
+  content: " ✘ あなたの回答（不正解）";
+  color: var(--wrong-red);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.option-item.disabled-option {
+  opacity: 0.92;
+}
+
+/* ---------------------------------------------------------------------
+   フッター（操作バー）
+   --------------------------------------------------------------------- */
+.exam-footer {
+  flex: 0 0 auto;
+  background: var(--footer-blue);
+  color: #fff;
+  padding: 0 18px;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.footer-left, .footer-right {
+  display: flex;
+  align-items: stretch;
+}
+
+.footer-right {
+  margin-left: auto;
+}
+
+/* フッターのボタンはボックスではなく、縦線で区切られた項目として表示する */
+.footer-link {
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  padding: 7px 22px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-left .footer-link:first-child,
+.footer-right .footer-link:first-child {
+  border-left: none;
+}
+
+.footer-right .footer-link {
+  border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.footer-left .footer-link {
+  border-left: none;
+}
+
+.footer-link:hover:not(:disabled) {
+  background: rgba(255,255,255,0.14);
+}
+
+.footer-link:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 従来の箱型ボタン（スタート/結果ページ、モーダル内などで使用） */
+.exam-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.7);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 18px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.exam-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.18);
+}
+
+.exam-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.exam-btn.primary {
+  background: #fff;
+  color: var(--header-blue-dark);
+  font-weight: bold;
+  border-color: #fff;
+}
+
+.exam-btn.primary:hover {
+  background: #e7f0fa;
+}
+
+.exam-btn.danger {
+  border-color: #ffb3a8;
+}
+
+/* ---------------------------------------------------------------------
+   モーダル（終了確認・警告）
+   --------------------------------------------------------------------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  width: 420px;
+  max-width: 90vw;
+  border: 1px solid #555;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+.modal-title {
+  background: var(--header-blue);
+  color: #fff;
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.modal-content {
+  padding: 22px 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.modal-content .modal-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--header-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.modal-actions {
+  padding: 14px 20px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid var(--header-blue);
+  background: var(--header-blue);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.modal-actions button.secondary {
+  background: #fff;
+  color: var(--header-blue-dark);
+}
+
+/* ---------------------------------------------------------------------
+   スタートページ
+   --------------------------------------------------------------------- */
+.start-wrapper {
+  flex: 1 1 auto;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.start-card {
+  max-width: 720px;
+  width: 100%;
+  border: 1px solid var(--border-gray);
+  padding: 40px 44px;
+}
+
+.start-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.start-sub {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 26px;
+}
+
+.notice-list {
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 30px;
+}
+
+.notice-list li {
+  margin-bottom: 8px;
+}
+
+.start-actions {
+  text-align: right;
+}
+
+.big-start-btn {
+  background: var(--header-blue);
+  color: #fff;
+  border: none;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 14px 34px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.big-start-btn:hover {
+  background: var(--header-blue-dark);
+}
+
+/* ---------------------------------------------------------------------
+   問題一覧（レビュー）ページ
+   --------------------------------------------------------------------- */
+.review-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.review-toolbar label {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.review-cell {
+  border: 1px solid var(--border-gray);
+  padding: 10px 12px;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--text-black);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fff;
+}
+
+/* 状態が枠線の色・太さで一目で分かるようにする */
+.review-cell.review-cell-unanswered {
+  border: 3px solid var(--wrong-red);
+}
+
+.review-cell.review-cell-answered {
+  border: 1px solid #222;
+}
+
+.review-cell.review-cell-marked {
+  border: 3px solid var(--correct-green);
+}
+
+.review-cell:hover {
+  border-color: var(--header-blue);
+}
+
+.review-cell .qnum {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.review-cell .status-answered { color: #1c7a3d; font-weight: bold; }
+.review-cell .status-unanswered { color: var(--wrong-red); font-weight: bold; }
+.review-cell .status-marked { color: #b8860b; font-weight: bold; }
+.review-cell .status-marked-placeholder { visibility: hidden; }
+.review-cell .status-correct { color: var(--correct-green); font-weight: bold; }
+.review-cell .status-incorrect { color: var(--wrong-red); font-weight: bold; }
+
+/* 凡例（review-cellの外にあるため上のルールとは別に指定する） */
+.legend-answered { color: var(--text-black); font-weight: bold; }
+.legend-unanswered { color: var(--wrong-red); font-weight: bold; }
+.legend-marked { color: #b8860b; font-weight: bold; }
+.legend-correct { color: var(--correct-green); font-weight: bold; }
+.legend-incorrect { color: var(--wrong-red); font-weight: bold; }
+
+.review-cell.current {
+  outline: 2px solid var(--header-blue);
+}
+
+/* ---------------------------------------------------------------------
+   結果ページ
+   --------------------------------------------------------------------- */
+.result-wrapper {
+  flex: 1 1 auto;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.result-card {
+  max-width: 560px;
+  width: 100%;
+  border: 1px solid var(--border-gray);
+  padding: 44px;
+  text-align: center;
+}
+
+.result-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.result-score {
+  font-size: 56px;
+  font-weight: bold;
+  color: var(--header-blue-dark);
+  margin-bottom: 8px;
+}
+
+.result-detail {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 32px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.result-actions .exam-btn {
+  border-color: var(--header-blue);
+  color: var(--header-blue-dark);
+}
+
+.result-actions .exam-btn:hover {
+  background: #eef4fb;
+}
+
+/* ---------------------------------------------------------------------
+   結果ページ: 前回比較・分野別グラフ・推移グラフ・履歴テーブル
+   --------------------------------------------------------------------- */
+.result-delta {
+  display: inline-block;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+
+.result-delta.delta-up {
+  background: #e7f6ec;
+  color: var(--correct-green);
+}
+
+.result-delta.delta-down {
+  background: #fdeceb;
+  color: var(--wrong-red);
+}
+
+.result-section {
+  text-align: left;
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e6e9;
+}
+
+.result-section-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bar-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.bar-chart-label {
+  flex: 0 0 150px;
+  color: #333;
+}
+
+.bar-chart-track {
+  flex: 1 1 auto;
+  height: 16px;
+  background: #e9edf1;
+  border: 1px solid var(--border-gray);
+}
+
+.bar-chart-fill {
+  height: 100%;
+  background: var(--header-blue);
+}
+
+.bar-chart-value {
+  flex: 0 0 90px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.bar-chart-fraction {
+  font-weight: normal;
+  color: #777;
+  font-size: 11px;
+}
+
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 140px;
+  padding: 6px 4px 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.trend-bar-wrap {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.trend-bar {
+  width: 60%;
+  min-width: 14px;
+  background: #b9c6d1;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.trend-bar-current {
+  background: var(--header-blue);
+}
+
+.trend-bar-value {
+  position: absolute;
+  top: -18px;
+  font-size: 10px;
+  color: #444;
+  white-space: nowrap;
+}
+
+.trend-bar-date {
+  font-size: 10px;
+  color: #777;
+  margin-top: 6px;
+}
+
+.result-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.result-history-table td {
+  padding: 7px 6px;
+  border-bottom: 1px solid #e2e6e9;
+}
