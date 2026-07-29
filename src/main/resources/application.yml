@@ -6,6 +6,14 @@ spring:
     name: java-silver-exam
   thymeleaf:
     cache: false
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 365d
+          cache-public: true
+      chain:
+        cache: true
 
   # ---------------------------------------------------------------
   # 受験履歴を保存するデータベース（組み込みH2。ファイルとして永続化）

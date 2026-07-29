@@ -6,14 +6,14 @@
 @font-face {
   /* PixelMplus10（ドット絵ベースのビットマップ風フォント）。フォールバック用に残置。 */
   font-family: "PixelMplus10";
-  src: url("/fonts/PixelMplus10-Regular.ttf") format("truetype");
+  src: url("/fonts/PixelMplus10-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: "PixelMplus10";
-  src: url("/fonts/PixelMplus10-Bold.ttf") format("truetype");
+  src: url("/fonts/PixelMplus10-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
@@ -24,7 +24,7 @@
      WindowsのChrome/Edgeでも（CSSのアンチエイリアス無効化が効かない環境でも）
      確実にジャギーな見た目になる。 */
   font-family: "DotGothic16";
-  src: url("/fonts/DotGothic16-Regular.ttf") format("truetype");
+  src: url("/fonts/DotGothic16-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
@@ -33,14 +33,14 @@
   /* PixelMplus12（10より一回り大きいドットグリッドのビットマップ風フォント）。
      問題文だけに使用。 */
   font-family: "PixelMplus12";
-  src: url("/fonts/PixelMplus12-Regular.ttf") format("truetype");
+  src: url("/fonts/PixelMplus12-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: "PixelMplus12";
-  src: url("/fonts/PixelMplus12-Bold.ttf") format("truetype");
+  src: url("/fonts/PixelMplus12-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
@@ -62,7 +62,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -537,7 +538,8 @@ a {
   justify-content: flex-start;
 }
 
-.footer-left, .footer-right {
+.footer-left,
+.footer-right {
   display: flex;
   align-items: stretch;
 }
@@ -550,7 +552,7 @@ a {
 .footer-link {
   background: transparent;
   border: none;
-  border-left: 1px solid rgba(255,255,255,0.35);
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
   color: #fff;
   font-family: inherit;
   font-size: 16px;
@@ -567,7 +569,7 @@ a {
 }
 
 .footer-right .footer-link {
-  border-left: 1px solid rgba(255,255,255,0.35);
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .footer-left .footer-link {
@@ -575,7 +577,7 @@ a {
 }
 
 .footer-link:hover:not(:disabled) {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .footer-link:disabled {
@@ -586,7 +588,7 @@ a {
 /* 従来の箱型ボタン（スタート/結果ページ、モーダル内などで使用） */
 .exam-btn {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.7);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   color: #fff;
   font-family: inherit;
   font-size: 14px;
@@ -596,7 +598,7 @@ a {
 }
 
 .exam-btn:hover:not(:disabled) {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .exam-btn:disabled {
@@ -626,7 +628,7 @@ a {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -641,7 +643,7 @@ a {
   width: 420px;
   max-width: 90vw;
   border: 1px solid #555;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
 .modal-title {
@@ -817,19 +819,60 @@ a {
   font-size: 16px;
 }
 
-.review-cell .status-answered { color: #1c7a3d; font-weight: bold; }
-.review-cell .status-unanswered { color: var(--wrong-red); font-weight: bold; }
-.review-cell .status-marked { color: #b8860b; font-weight: bold; }
-.review-cell .status-marked-placeholder { visibility: hidden; }
-.review-cell .status-correct { color: var(--correct-green); font-weight: bold; }
-.review-cell .status-incorrect { color: var(--wrong-red); font-weight: bold; }
+.review-cell .status-answered {
+  color: #1c7a3d;
+  font-weight: bold;
+}
+
+.review-cell .status-unanswered {
+  color: var(--wrong-red);
+  font-weight: bold;
+}
+
+.review-cell .status-marked {
+  color: #b8860b;
+  font-weight: bold;
+}
+
+.review-cell .status-marked-placeholder {
+  visibility: hidden;
+}
+
+.review-cell .status-correct {
+  color: var(--correct-green);
+  font-weight: bold;
+}
+
+.review-cell .status-incorrect {
+  color: var(--wrong-red);
+  font-weight: bold;
+}
 
 /* 凡例（review-cellの外にあるため上のルールとは別に指定する） */
-.legend-answered { color: var(--text-black); font-weight: bold; }
-.legend-unanswered { color: var(--wrong-red); font-weight: bold; }
-.legend-marked { color: #b8860b; font-weight: bold; }
-.legend-correct { color: var(--correct-green); font-weight: bold; }
-.legend-incorrect { color: var(--wrong-red); font-weight: bold; }
+.legend-answered {
+  color: var(--text-black);
+  font-weight: bold;
+}
+
+.legend-unanswered {
+  color: var(--wrong-red);
+  font-weight: bold;
+}
+
+.legend-marked {
+  color: #b8860b;
+  font-weight: bold;
+}
+
+.legend-correct {
+  color: var(--correct-green);
+  font-weight: bold;
+}
+
+.legend-incorrect {
+  color: var(--wrong-red);
+  font-weight: bold;
+}
 
 .review-cell.current {
   outline: 2px solid var(--header-blue);
