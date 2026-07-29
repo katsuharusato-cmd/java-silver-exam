@@ -4,10 +4,6 @@ WORKDIR /app
 
 # 依存関係を先にキャッシュさせるため、pom.xmlだけ先にコピー
 COPY pom.xml .
-COPY .mvn/ .mvn/
-COPY mvnw .
-RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline -B
 
 # ソース一式をコピーしてビルド
 COPY src/ src/
