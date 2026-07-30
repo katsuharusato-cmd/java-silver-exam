@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>Java Silver 模擬試験</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
 
   <div class="app-shell">
@@ -36,13 +38,13 @@
 
           <div th:if="${!authenticated and demoLoginEnabled}" class="demo-login-box">
             <p class="demo-login-note">
-              お名前を入力するだけでログインできます。受験履歴もこの名前に紐づけて記録されます
-              （同じ名前を入力すると、同じ人として履歴が積み上がります）。
+              お名前を入力するだけでログインできます。
             </p>
             <form th:action="@{/login/demo}" method="post" class="demo-login-form">
-              <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-              <input type="text" name="name" placeholder="お名前" required="required" maxlength="50"/>
-              <button type="submit" class="exam-btn" style="border-color:var(--header-blue); color:var(--header-blue-dark);">名前だけでログイン</button>
+              <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <input type="text" name="name" placeholder="お名前" required="required" maxlength="50" />
+              <button type="submit" class="exam-btn"
+                style="border-color:var(--header-blue); color:var(--header-blue-dark);">名前だけでログイン</button>
             </form>
           </div>
 
@@ -64,7 +66,7 @@
     <div class="exam-footer">
       <div class="footer-right">
         <form th:if="${authenticated}" th:action="@{/exam/start}" method="post" style="display:contents;">
-          <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <button type="submit" class="footer-link" style="border-left:none;">試験を始める</button>
         </form>
       </div>
@@ -72,4 +74,5 @@
   </div>
 
 </body>
+
 </html>

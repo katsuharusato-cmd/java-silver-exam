@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title th:text="'問題 ' + ${pos} + ' / ' + ${total} + ' - Java Silver 模擬試験'">Java Silver 模擬試験</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
 
   <div class="app-shell">
@@ -19,7 +21,7 @@
         <div class="header-controls-panel">
           <label class="header-mark-review">
             <input type="checkbox" id="markedForReview" name="markedForReview" form="examForm"
-                   th:checked="${markedForReview}" th:disabled="${finished}"/>
+              th:checked="${markedForReview}" th:disabled="${finished}" />
             後で見る
           </label>
           <div class="header-progress-track">
@@ -32,12 +34,12 @@
     <div class="exam-subbar"></div>
 
     <form id="examForm" th:action="@{/exam/navigate}" method="post" class="exam-form-shell">
-      <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-      <input type="hidden" name="pos" th:value="${pos}"/>
+      <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <input type="hidden" name="pos" th:value="${pos}" />
       <!-- 通常のボタンは name="action" 付きの submit ボタンでネイティブに送信する。
            このフィールドは「試験を終了する」の確認モーダル経由の送信でのみ、
            JSが disabled を外して値をセットしてから使う（＝それ以外では送信されない）。 -->
-      <input type="hidden" name="action" id="actionField" value="finish" disabled="disabled"/>
+      <input type="hidden" name="action" id="actionField" value="finish" disabled="disabled" />
 
       <div class="exam-scroll-area">
         <div class="question-container">
@@ -49,16 +51,11 @@
           <pre class="question-code classic-font" th:if="${question.code}" th:text="${question.code}"></pre>
 
           <ul class="options-list classic-font" th:attr="data-max=${maxSelect}">
-            <li class="option-item"
-                th:each="opt : ${options}"
-                th:classappend="${opt.correct} ? 'correct-answer' : (${opt.wrongSelection} ? 'wrong-selection' : '') + (${finished} ? ' disabled-option' : '')">
-              <input type="checkbox"
-                     name="selected"
-                     th:id="'opt-' + ${opt.id}"
-                     th:value="${opt.id}"
-                     th:checked="${opt.checked}"
-                     th:disabled="${finished}"/>
-              <label th:for="'opt-' + ${opt.id}" th:text="${opt.text}">選択肢</label>
+            <li class="option-item" th:each="opt : ${options}"
+              th:classappend="${opt.correct} ? 'correct-answer' : (${opt.wrongSelection} ? 'wrong-selection' : '') + (${finished} ? ' disabled-option' : '')">
+              <input type="checkbox" name="selected" th:id="'opt-' + ${opt.id}" th:value="${opt.id}"
+                th:checked="${opt.checked}" th:disabled="${finished}" />
+              <label th:text="${opt.text}">選択肢</label>
             </li>
           </ul>
 
@@ -67,8 +64,10 @@
 
       <div class="exam-footer">
         <div class="footer-right">
-          <button type="submit" name="action" value="prev" class="footer-link" th:disabled="${!hasPrev}">← 前の問題へ</button>
-          <button type="submit" name="action" value="next" class="footer-link" th:disabled="${!hasNext}">次の問題へ →</button>
+          <button type="submit" name="action" value="prev" class="footer-link" th:disabled="${!hasPrev}">←
+            前の問題へ</button>
+          <button type="submit" name="action" value="next" class="footer-link" th:disabled="${!hasNext}">次の問題へ
+            →</button>
           <button type="submit" name="action" value="review" class="footer-link">全問題レビュー</button>
 
           <button type="button" id="finishBtn" class="footer-link" th:unless="${finished}">試験を終了する</button>
@@ -84,7 +83,7 @@
       <div class="modal-title">試験を終了する</div>
       <div class="modal-content">
         <span class="modal-icon">!</span>
-        <span>「試験を終了する」を選択しました。<br/>試験を終了してよろしいですか？</span>
+        <span>「試験を終了する」を選択しました。<br />試験を終了してよろしいですか？</span>
       </div>
       <div class="modal-actions">
         <button type="button" class="secondary" id="finishConfirmNo">キャンセル</button>
@@ -102,8 +101,10 @@
         <span>新たに試験を始めます。よろしいですか？</span>
       </div>
       <div class="modal-actions">
-        <button type="button" class="secondary" onclick="document.getElementById('restartConfirmModal').classList.remove('open')">キャンセル</button>
-        <button type="button" onclick="var f=document.getElementById('examForm'); f.setAttribute('action','/exam/restart'); f.submit();">始める</button>
+        <button type="button" class="secondary"
+          onclick="document.getElementById('restartConfirmModal').classList.remove('open')">キャンセル</button>
+        <button type="button"
+          onclick="var f=document.getElementById('examForm'); f.setAttribute('action','/exam/restart'); f.submit();">始める</button>
       </div>
     </div>
   </div>
@@ -138,4 +139,5 @@
   </script>
   <script th:src="@{/js/exam.js}"></script>
 </body>
+
 </html>
