@@ -38,7 +38,7 @@
 
           <div th:if="${!authenticated and demoLoginEnabled}" class="demo-login-box">
             <p class="demo-login-note">
-              お名前を入力するだけでログインできます。
+              <!--ここにログインの注意書きを入れるのであれば入れる-->
             </p>
             <form th:action="@{/login/demo}" method="post" class="demo-login-form">
               <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
